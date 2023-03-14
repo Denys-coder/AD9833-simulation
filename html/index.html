@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AD9833 simulation</title>
+        <script src="../js/script.js"></script>
+    </head>
+    <body>
+        
+        <label for="freq0_reg">FREQ0 REG</label> (28 bit)
+        <br>
+        <input type="text" id="freq0_reg">
+        <br>
+        <br>
+        
+        <label for="freq1_reg">FREQ1 REG</label> (28 bit)
+        <br>
+        <input type="text" id="freq1_reg">
+        <br>
+        <br>
+        
+        <label for="phase_accumulator">PHASE ACCUMULATOR</label> (28-BIT)
+        <br>
+        <input type="text" id="phase_accumulator">
+        <br>
+        <br>
+        
+        <label for="phase0_reg">PHASE0 REG</label> (12 bit)
+        <br>
+        <input type="text" id="phase0_reg">
+        <br>
+        <br>
+        
+        <label for="phase1_reg">PHASE1 REG</label> (12 bit)
+        <br>
+        <input type="text" id="phase1_reg">
+        <br>
+        <br>
+        
+        <label for="control_register">CONTROL REGISTER</label> (16 bit)
+        <br>
+        <input type="text" id="control_register">
+        <br>
+        <br>
+        
+        <div id="data_div"></div>
+        
+        <button onclick="generateData()" id="generate_data_button">Generate data</button>
+    
+    </body>
+</html>
