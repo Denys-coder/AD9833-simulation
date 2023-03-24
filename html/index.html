@@ -3,52 +3,55 @@
     <head>
         <meta charset="UTF-8">
         <title>AD9833 simulation</title>
+        <link rel="stylesheet" href="../css/styles.css">
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script src="../js/script.js"></script>
-        
     </head>
     <body>
         
+        <img src="../images/img.png" id="scheme_image" width="1365" height="768">
+        <br>
+        
         <label for="freq0_reg">FREQ0 REG</label> (28 bit)
         <br>
-        <input type="text" id="freq0_reg" value="0110011000111001101001110001">
+        <input type="text" id="freq0_reg" value="0110011000111001101001110001" size="40">
         <br>
         <br>
         
         <label for="freq1_reg">FREQ1 REG</label> (28 bit)
         <br>
-        <input type="text" id="freq1_reg" value="011001010100010101000111101">
+        <input type="text" id="freq1_reg" value="011001010100010101000111101" size="40">
         <br>
         <br>
         
         <label for="phase_accumulator">PHASE ACCUMULATOR</label> (28-BIT)
         <br>
-        <input type="text" id="phase_accumulator" value="0001101010001101010110010101">
+        <input type="text" id="phase_accumulator" value="0001101010001101010110010101" size="40">
         <br>
         <br>
         
         <label for="phase0_reg">PHASE0 REG</label> (12 bit)
         <br>
-        <input type="text" id="phase0_reg" value="100101010111">
+        <input type="text" id="phase0_reg" value="100101010111" size="40">
         <br>
         <br>
         
         <label for="phase1_reg">PHASE1 REG</label> (12 bit)
         <br>
-        <input type="text" id="phase1_reg" value="001010100011">
+        <input type="text" id="phase1_reg" value="001010100011" size="40">
         <br>
         <br>
         
         <label for="control_register">CONTROL REGISTER</label> (16 bit)
         <br>
-        <input type="text" id="control_register" value="0011010101010100">
+        <input type="text" id="control_register" value="0011010101010100" size="40">
         <br>
         <br>
         
         <div id="data_div"></div>
         
         <button onclick="generateData()" id="generate_data_button">Generate data</button>
-    
+        
         <div id="graphContainer"></div>
     
     </body>

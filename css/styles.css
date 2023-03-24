@@ -1,0 +1,17 @@
+*
+{
+    box-sizing: border-box;
+}
+
+#graphContainer
+{
+    width: 90%;
+}
+
+#scheme_image
+{
+    object-fit: scale-down;
+    width: 50%;
+    height: 50%;
+    float: right;
+}

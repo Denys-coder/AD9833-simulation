@@ -28,24 +28,23 @@ function generateData()
     let controlRegister = parseInt(document.getElementById("control_register").value, 2);
     
     // значения регистров (тип данных boolean)
-    let d0 = controlRegister & 0b0_000_000_000_000_001; // reserved, must be 0
-    let d1 = controlRegister & 0b0_000_000_000_000_010; // 0 for "SIN ROM" and 1 for bypass "SIN ROM"
-    let d2 = controlRegister & 0b0_000_000_000_000_100; // reserved, must be 0
-    let d3 = controlRegister & 0b0_000_000_000_001_000; // ?
-    let d4 = controlRegister & 0b0_000_000_000_010_000; // reserved, must be 0
-    let d5 = controlRegister & 0b0_000_000_000_100_000; // ?
-    let d6 = controlRegister & 0b0_000_000_001_000_000; // ?
-    let d7 = controlRegister & 0b0_000_000_010_000_000; // ?
-    let d8 = controlRegister & 0b0_000_000_100_000_000; // ?
-    let d9 = controlRegister & 0b0_000_001_000_000_000; // reserved, must be 0
-    let d10 = controlRegister & 0b0_000_010_000_000_000; // 0 for "PHASE0 REG" and 1 for "PHASE1 REG"
-    let d11 = controlRegister & 0b0_000_100_000_000_000; // 0 for "FREQ0 REG" and 1 for "FREQ1 REG"
-    let d12 = controlRegister & 0b0_001_000_000_000_000; // ?
-    let d13 = controlRegister & 0b0_010_000_000_000_000; // ?
-    let d14 = controlRegister & 0b0_100_000_000_000_000; // ?
-    let d15 = controlRegister & 0b1_000_000_000_000_000; // ?
+    let d0 = (controlRegister & 0b0_000_000_000_000_001) !== 0; // reserved, must be 0
+    let d1 = (controlRegister & 0b0_000_000_000_000_010) !== 0; // 0 for "SIN ROM" and 1 for bypass "SIN ROM"
+    let d2 = (controlRegister & 0b0_000_000_000_000_100) !== 0; // reserved, must be 0
+    let d3 = (controlRegister & 0b0_000_000_000_001_000) !== 0; // ?
+    let d4 = (controlRegister & 0b0_000_000_000_010_000) !== 0; // reserved, must be 0
+    let d5 = (controlRegister & 0b0_000_000_000_100_000) !== 0; // ?
+    let d6 = (controlRegister & 0b0_000_000_001_000_000) !== 0; // ?
+    let d7 = (controlRegister & 0b0_000_000_010_000_000) !== 0; // ?
+    let d8 = (controlRegister & 0b0_000_000_100_000_000) !== 0; // ?
+    let d9 = (controlRegister & 0b0_000_001_000_000_000) !== 0; // reserved, must be 0
+    let d10 = (controlRegister & 0b0_000_010_000_000_000) !== 0; // 0 for "PHASE0 REG" and 1 for "PHASE1 REG"
+    let d11 = (controlRegister & 0b0_000_100_000_000_000) !== 0; // 0 for "FREQ0 REG" and 1 for "FREQ1 REG"
+    let d12 = (controlRegister & 0b0_001_000_000_000_000) !== 0; // ?
+    let d13 = (controlRegister & 0b0_010_000_000_000_000) !== 0; // ?
+    let d14 = (controlRegister & 0b0_100_000_000_000_000) !== 0; // ?
+    let d15 = (controlRegister & 0b1_000_000_000_000_000) !== 0; // ?
     
-    let graphContainer = document.getElementById("graphContainer");
     let xCoordinates = [];
     let yCoordinates = [];
     
@@ -56,7 +55,7 @@ function generateData()
     for (let i = 0; i < 100_000; i++)
     {
         let mux1 = d11 ? freq0Reg : freq1Reg;
-        phaseAccumulator28bit = (mux1 + +phaseAccumulator) & 0xfffffff;
+        phaseAccumulator28bit = (mux1 + phaseAccumulator) & 0xfffffff;
         let mux2 = d10 ? phase0Reg : phase1Reg;
         centralSum12bits = (phaseAccumulator28bit + mux2) & 0xfff;
         let sinRomInput = ((2 * Math.PI) / (Math.pow(2, 12) - 1)) * centralSum12bits; // angle in radians
@@ -85,7 +84,7 @@ function generateData()
         },
     };
     
-    Plotly.newPlot(graphContainer, graphData, graphLayout);
+    Plotly.newPlot("graphContainer", graphData, graphLayout);
     
 }
 
