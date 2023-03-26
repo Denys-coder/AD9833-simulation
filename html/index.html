@@ -9,42 +9,54 @@
     </head>
     <body>
         
-        <img src="../images/img.png" id="scheme_image" width="1365" height="768">
+        <img src="../images/img.png" id="scheme_image" width="1310" height="688" alt="control schema">
         <br>
         
-        <label for="freq0_reg">FREQ0 REG</label> (28 bit)
+        <label for="freq0_reg">FREQ0 REG (28 bit)</label>
         <br>
         <input type="text" id="freq0_reg" value="0110011000111001101001110001" size="40">
         <br>
         <br>
         
-        <label for="freq1_reg">FREQ1 REG</label> (28 bit)
+        <label for="freq1_reg">FREQ1 REG (28 bit)</label>
         <br>
         <input type="text" id="freq1_reg" value="011001010100010101000111101" size="40">
         <br>
         <br>
         
-        <label for="phase_accumulator">PHASE ACCUMULATOR</label> (28-BIT)
+        <label for="phase_accumulator">PHASE ACCUMULATOR (28-BIT)</label>
         <br>
         <input type="text" id="phase_accumulator" value="0001101010001101010110010101" size="40">
         <br>
         <br>
         
-        <label for="phase0_reg">PHASE0 REG</label> (12 bit)
+        <label for="phase0_reg">PHASE0 REG (12 bit)</label>
         <br>
         <input type="text" id="phase0_reg" value="100101010111" size="40">
         <br>
         <br>
         
-        <label for="phase1_reg">PHASE1 REG</label> (12 bit)
+        <label for="phase1_reg">PHASE1 REG (12 bit)</label>
         <br>
         <input type="text" id="phase1_reg" value="001010100011" size="40">
         <br>
         <br>
         
-        <label for="control_register">CONTROL REGISTER</label> (16 bit)
+        <label for="control_register">CONTROL REGISTER (16 bit)</label>
         <br>
-        <input type="text" id="control_register" value="0011010101010100" size="40">
+        <input type="text" id="control_register" value="0011010101000100" size="40">
+        <br>
+        <br>
+        
+        <label for="base_frequency">base frequency</label>
+        <br>
+        <input type="text" id="base_frequency" value="100">
+        <select>
+            <option value="1">Hz</option>
+            <option value="1000">KHz</option>
+            <option value="1000000">MHz</option>
+            <option value="1000000000">GHz</option>
+        </select>
         <br>
         <br>
         
