@@ -7,7 +7,7 @@ function generateData()
     let phase0Reg = parseInt(document.getElementById("phase0_reg").value, 2);
     let phase1Reg = parseInt(document.getElementById("phase1_reg").value, 2);
     let controlRegister = parseInt(document.getElementById("control_register").value, 2);
-    let SecondsFor1Tact = 1 / (parseInt(document.getElementById("base_frequency").value) * parseInt(document.getElementById("base_frequency_unit").value));
+    let baseFrequency = 1 / (parseInt(document.getElementById("base_frequency").value) * parseInt(document.getElementById("base_frequency_unit").value));
     
     // registers data (datatype is boolean)
     let d1 = (controlRegister & 0b0_000_000_000_000_010) === 0; // 'true' for bypass "SIN ROM" and 'false' for "SIN ROM"
@@ -37,40 +37,20 @@ function generateData()
     let DAC10bit = 0;
     let i = 0;
     
-    setTimeout(function ()
+    setInterval(function()
     {
-        while (true)
-        {
-            let startTime = performance.now();
-            
-            let mux1 = d11 ? freq0Reg : freq1Reg;
-            phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
-            let mux2 = d10 ? phase0Reg : phase1Reg;
-            centralSum = phaseAccumulator + mux2;
-            // angle in radians
-            let sinRomInput = ((2 * Math.PI) / (Math.pow(2, 12) - 1)) * centralSum;
-            let sinRom = Math.sin(sinRomInput + sinRomInput);
-            sinRomOutput = (1 / (Math.pow(2, 10) - 1)) * sinRom;
-            let mux4 = d1 ? sinRomOutput : sinRomInput;
-            DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
-            
-            while (true)
-            {
-                let endTime = performance.now();
-                if (endTime - startTime >= SecondsFor1Tact * 1000)
-                {
-                    break;
-                }
-            }
-            
-            // alert("yes1");
-            Plotly.extendTraces("graphContainer", {x: [[i]], y: [[DAC10bit]]}, [0]);
-            i++;
-            // alert("yes2");
-            if (i === 100)
-            {
-                break;
-            }
-        }
-    });
+        let mux1 = d11 ? freq0Reg : freq1Reg;
+        phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
+        let mux2 = d10 ? phase0Reg : phase1Reg;
+        centralSum = phaseAccumulator + mux2;
+        // angle in radians
+        let sinRomInput = ((2 * Math.PI) / (Math.pow(2, 12) - 1)) * centralSum;
+        let sinRom = Math.sin(sinRomInput + sinRomInput);
+        sinRomOutput = (1 / (Math.pow(2, 10) - 1)) * sinRom;
+        let mux4 = d1 ? sinRomOutput : sinRomInput;
+        DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
+        
+        Plotly.extendTraces("graphContainer", {x: [[i]], y: [[DAC10bit]]}, [0]);
+        i++;
+    }, baseFrequency);
 }
