@@ -62,6 +62,12 @@ function generateGraph() {
         DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
 
         Plotly.extendTraces("graphContainer", {x: [[i]], y: [[DAC10bit]]}, [0]);
+        let startRangeX = 0;
+        if (i > 100) startRangeX += i - 100;
+        let endRangeX = 100;
+        if (i > 100) endRangeX += i - 100;
+        let newRange = [startRangeX, endRangeX];
+        Plotly.relayout('graphContainer', {'xaxis.range': newRange});
         i++;
 
     }, baseFrequency * 1000);
@@ -79,6 +85,7 @@ function getGraphLayout() {
     return {
         xaxis: {
             title: "X-axis",
+            range: [0, 100],
         },
         yaxis: {
             title: "Y-axis",
