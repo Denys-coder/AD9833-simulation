@@ -21,21 +21,6 @@ function generateGraph() {
     let d10 = (controlRegister & 0b0_000_010_000_000_000) === 0; // 'true' for "PHASE1 REG" and 'false' for "PHASE0 REG"
     let d11 = (controlRegister & 0b0_000_100_000_000_000) === 0; // 'true' for "FREQ1 REG" and 'false' for "FREQ0 REG"
 
-    // const graphData = [{
-    //     x: [],
-    //     y: [],
-    //     mode: "lines"
-    // }];
-    // const graphLayout = {
-    //     title: "Dynamic Function Graph",
-    //     xaxis: {
-    //         title: "X-axis",
-    //     },
-    //     yaxis: {
-    //         title: "Y-axis",
-    //     },
-    // };
-
     graphData = getGraphData();
     graphLayout = getGraphLayout();
 
@@ -61,13 +46,21 @@ function generateGraph() {
         let mux4 = d1 ? sinRomOutput : sinRomInput;
         DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
 
-        Plotly.extendTraces("graphContainer", {x: [[i]], y: [[DAC10bit]]}, [0]);
         let startRangeX = 0;
-        if (i > 100) startRangeX += i - 100;
+        if (i > 100) {
+            startRangeX += i - 100;
+        }
         let endRangeX = 100;
-        if (i > 100) endRangeX += i - 100;
-        let newRange = [startRangeX, endRangeX];
-        Plotly.relayout('graphContainer', {'xaxis.range': newRange});
+        if (i > 100) {
+            endRangeX += i - 100;
+        }
+
+        Plotly.extendTraces("graphContainer", {x: [[i]], y: [[DAC10bit]]}, [0]);
+
+        let layoutUpdate = Object.assign({}, graphLayout);
+        layoutUpdate.xaxis.range = [startRangeX, endRangeX];
+        Plotly.animate("graphContainer", {layout: layoutUpdate}, {transition: {duration: 10, easing: "cubic-in-out"}});
+
         i++;
 
     }, baseFrequency * 1000);
@@ -98,3 +91,4 @@ function getGraphLayout() {
 // Plotly.extendTraces - добавляет новую точку
 // Plotly.addTraces -
 // Plotly.relayout
+// Plotly.animate
