@@ -1,15 +1,12 @@
-*
-{
+* {
     box-sizing: border-box;
 }
 
-#graphContainer
-{
+#graphContainer {
     width: 90%;
 }
 
-#scheme_image
-{
+#scheme_image {
     object-fit: scale-down;
     width: 50%;
     height: 50%;
