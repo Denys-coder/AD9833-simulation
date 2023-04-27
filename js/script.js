@@ -216,5 +216,6 @@ function getGraphLayout() {
         yaxis: {
             title: "Y-axis",
         },
+        dragmode: 'pan',
     };
 }
