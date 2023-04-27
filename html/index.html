@@ -1,69 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>AD9833 simulation</title>
-        <link rel="stylesheet" href="../css/styles.css">
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>AD9833 simulation</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
 
-        <img src="../images/img.png" id="scheme_image" width="1310" height="688" alt="control schema">
-        <br>
+<div class="lightgray">
+    <h3>AD9833 simulation</h3>
+    <img src="../images/img.png" id="scheme_image" width="1310" height="688" alt="control schema">
+    <br>
+</div>
 
-        <label for="freq0_reg">FREQ0 REG (28 bit)</label>
-        <br>
-        <input type="text" id="freq0_reg" value="0110011000111001101001110001" size="40">
-        <br>
-        <br>
+<div class="lightblue">
+<!--    <label for="presets">Presets:</label>-->
+    <br>
+    <label for="presets">Presets:</label>
+    <br>
+    <select id="presets" onchange="changePreset()">
+        <option selected disabled value=""> -- select preset -- </option>
+        <option value="preset 1">preset 1</option>
+        <option value="preset 2">preset 2</option>
+        <option value="preset 3">preset 3</option>
+    </select>
+    <br>
+    <br>
+    <br>
 
-        <label for="freq1_reg">FREQ1 REG (28 bit)</label>
-        <br>
-        <input type="text" id="freq1_reg" value="011001010100010101000111101" size="40">
-        <br>
-        <br>
+    <label for="freq0_reg">FREQ0 REG (28 bit)</label>
+    <br>
+    <input type="text" id="freq0_reg" value="" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
 
-        <label for="phase_accumulator">PHASE ACCUMULATOR (28-BIT)</label>
-        <br>
-        <input type="text" id="phase_accumulator" value="0001101010001101010110010101" size="40">
-        <br>
-        <br>
+    <label for="freq1_reg">FREQ1 REG (28 bit)</label>
+    <br>
+    <input type="text" id="freq1_reg" value="" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
 
-        <label for="phase0_reg">PHASE0 REG (12 bit)</label>
-        <br>
-        <input type="text" id="phase0_reg" value="100101010111" size="40">
-        <br>
-        <br>
+    <label for="phase_accumulator">PHASE ACCUMULATOR (28-BIT)</label>
+    <br>
+    <input type="text" id="phase_accumulator" value="" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
 
-        <label for="phase1_reg">PHASE1 REG (12 bit)</label>
-        <br>
-        <input type="text" id="phase1_reg" value="001010100011" size="40">
-        <br>
-        <br>
+    <label for="phase0_reg">PHASE0 REG (12 bit)</label>
+    <br>
+    <input type="text" id="phase0_reg" value="" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
 
-        <label for="control_register">CONTROL REGISTER (16 bit)</label>
-        <br>
-        <input type="text" id="control_register" value="0011010101000100" size="40">
-        <br>
-        <br>
+    <label for="phase1_reg">PHASE1 REG (12 bit)</label>
+    <br>
+    <input type="text" id="phase1_reg" value="" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
 
-        <label for="base_frequency">base frequency</label>
-        <br>
-        <input type="text" id="base_frequency" value="10">
-        <label for="base_frequency_unit"></label>
-        <select id="base_frequency_unit">
-            <option value="1">Hz</option>
-            <option value="1000">KHz</option>
-            <option value="1000000">MHz</option>
-            <option value="1000000000">GHz</option>
-        </select>
-        <br>
-        <br>
+    <label for="control_register">CONTROL REGISTER (16 bit)</label>
+    <br>
+    <input type="text" id="control_register" value="" size="40" onchange="unselectPreset(); updateMuxes();">
+    <br>
+    <br>
 
-        <button onclick="generateGraph()" id="generate_graph">Generate data</button>
+    <fieldset>
+        <legend>mux1</legend>
+        <input type="radio" id="mux1_first" name="mux1" value="first" onchange="mux1Changed()">
+        <label for="mux1_first">first</label>
+        <br>
+        <input type="radio" id="mux1_second" name="mux1" value="second" onchange="mux1Changed()">
+        <label for="mux1_second">second</label>
+    </fieldset>
 
-        <div id="graphContainer"></div>
+    <fieldset>
+        <legend>mux2</legend>
+        <input type="radio" id="mux2_first" name="mux2" value="first" onchange="mux2Changed()">
+        <label for="mux2_first">first</label>
+        <br>
+        <input type="radio" id="mux2_second" name="mux2" value="second" onchange="mux2Changed()">
+        <label for="mux2_second">second</label>
+    </fieldset>
 
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <script src="../js/script.js"></script>
-    </body>
+    <fieldset>
+        <legend>mux4</legend>
+        <input type="radio" id="mux4_first" name="mux4" value="first" onchange="mux4Changed()">
+        <label for="mux4_first">first</label>
+        <br>
+        <input type="radio" id="mux4_second" name="mux4" value="second" onchange="mux4Changed()">
+        <label for="mux4_second">second</label>
+    </fieldset>
+</div>
+
+<div class="lightgray">
+    <label for="base_frequency">base frequency</label>
+    <br>
+    <input type="text" id="base_frequency" value="10">
+
+    <select id="base_frequency_unit">
+        <option value="1">Hz</option>
+        <option value="1000">KHz</option>
+        <option value="1000000">MHz</option>
+        <option value="1000000000">GHz</option>
+    </select>
+    <br>
+    <br>
+
+    <button onclick="generateGraph()" id="generate_graph">Run</button>
+
+    <button>Run 10 tacts</button>
+    <button>Run 20 tacts</button>
+    <button>Run 30 tacts</button>
+    <br>
+    <br>
+    <button>Stop</button>
+    <br>
+    <br>
+    <button>Resume</button>
+</div>
+<div class="lightblue">
+    <div id="graphContainer"></div>
+</div>
+
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="../js/script.js"></script>
+</body>
 </html>
