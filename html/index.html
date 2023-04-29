@@ -81,9 +81,8 @@
         <input type="radio" id="mux4_second" name="mux4" value="second" onchange="mux4Changed()">
         <label for="mux4_second">second</label>
     </fieldset>
-</div>
+    <br>
 
-<div class="lightgray">
     <label for="base_frequency">base frequency</label>
     <br>
     <input type="text" id="base_frequency" value="10">
@@ -95,27 +94,9 @@
     </select>
     <br>
     <br>
-
-    <button onclick="generateGraph()" id="generate_graph">Run</button>
-
-    <button>Run 1 tact</button>
-    <button>Run 10 tacts</button>
-    <button>Run 20 tacts</button>
-    <button>Run 30 tacts</button>
-    <button>Run <input type="text" size="1"> tacts</button>
-    <br>
-    <br>
-    <button>Stop</button>
-    <br>
-    <br>
-    <button>Resume</button>
 </div>
 
-<div class="lightblue">
-    <img src="../images/schema-pictures/no-path-schema.png" id="scheme_image" width="1701" height="982" alt="control schema">
-    <br>
-    <br>
-
+<div class="lightgray">
     <p>Current values</p>
     <br>
     <p>FREQ0 REG:</p>
@@ -134,9 +115,29 @@
     <br>
     <p>10-BIT DAC:</p>
     <br>
-
-    <div id="graphContainer"></div>
 </div>
+
+<div>
+    <img src="../images/schema-pictures/no-path-schema.png" id="scheme_image" width="1701" height="982" alt="control schema">
+</div>
+
+<div class="lightgray">
+    <button onclick="generateGraph()" id="generate_graph">Run</button>
+
+    <button>Run 1 tact</button>
+    <button>Run 10 tacts</button>
+    <button>Run 20 tacts</button>
+    <button>Run 30 tacts</button>
+    <button>Run <input type="text" size="1"> tacts</button>
+    <br>
+    <br>
+    <button>Stop</button>
+    <br>
+    <br>
+    <button>Resume</button>
+</div>
+
+<div id="graphContainer"></div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="../js/script.js"></script>

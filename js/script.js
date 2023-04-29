@@ -261,11 +261,11 @@ function getGraphData() {
 function getGraphLayout() {
     return {
         xaxis: {
-            title: "X-axis",
+            title: "seconds",
             range: [0, 100],
         },
         yaxis: {
-            title: "Y-axis",
+            title: "VOUT",
         },
         dragmode: 'pan',
     };
