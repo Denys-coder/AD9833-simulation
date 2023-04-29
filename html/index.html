@@ -7,24 +7,14 @@
 </head>
 <body>
 
-<div class="lightgray">
-    <h3>AD9833 simulation</h3>
-    <img src="../images/img.png" id="scheme_image" width="1310" height="688" alt="control schema">
-    <br>
-</div>
-
 <div class="lightblue">
-<!--    <label for="presets">Presets:</label>-->
-    <br>
-    <label for="presets">Presets:</label>
-    <br>
+    <label for="presets">Preset:</label>
     <select id="presets" onchange="changePreset()">
-        <option selected disabled value=""> -- select preset -- </option>
+        <option selected disabled value=""> -- select preset --</option>
         <option value="preset 1">preset 1</option>
         <option value="preset 2">preset 2</option>
         <option value="preset 3">preset 3</option>
     </select>
-    <br>
     <br>
     <br>
 
@@ -107,9 +97,11 @@
 
     <button onclick="generateGraph()" id="generate_graph">Run</button>
 
+    <button>Run 1 tact</button>
     <button>Run 10 tacts</button>
     <button>Run 20 tacts</button>
     <button>Run 30 tacts</button>
+    <button>Run <input type="text" size="1"> tacts</button>
     <br>
     <br>
     <button>Stop</button>
@@ -117,10 +109,33 @@
     <br>
     <button>Resume</button>
 </div>
+
 <div class="lightblue">
+    <img src="../images/img.png" id="scheme_image" width="1310" height="688" alt="control schema">
+    <br>
+    <br>
+
+    <p>Current values</p>
+    <br>
+    <p>FREQ0 REG:</p>
+    <br>
+    <p>FREQ1 REG:</p>
+    <br>
+    <p>PHASE ACCUMULATOR:</p>
+    <br>
+    <p>PHASE0 REG:</p>
+    <br>
+    <p>PHASE1 REG:</p>
+    <br>
+    <p>CONTROL REGISTER:</p>
+    <br>
+    <p>SIN ROM:</p>
+    <br>
+    <p>10-BIT DAC:</p>
+    <br>
+
     <div id="graphContainer"></div>
 </div>
-
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="../js/script.js"></script>
