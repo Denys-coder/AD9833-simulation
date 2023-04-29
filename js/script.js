@@ -57,6 +57,8 @@ function mux1Changed() {
         // symbol with index 4 should be '1'
         controlRegister.value = controlRegister.value.substring(0, 4) + '1' + controlRegister.value.substring(5);
     }
+
+    updateSchema();
 }
 
 function mux2Changed() {
@@ -76,6 +78,8 @@ function mux2Changed() {
         controlRegister.value = controlRegister.value.substring(0, 5) + '1' + controlRegister.value.substring(6);
     }
 
+    updateSchema();
+
 }
 
 function mux4Changed() {
@@ -94,6 +98,8 @@ function mux4Changed() {
         // symbol with index 14 should be '0'
         controlRegister.value = controlRegister.value.substring(0, 14) + '0' + controlRegister.value.substring(15);
     }
+
+    updateSchema();
 }
 
 function updateMuxes() {
@@ -125,6 +131,51 @@ function updateMuxes() {
         document.getElementById("mux4_first").checked = true;
     }
 
+    updateSchema();
+
+}
+
+function updateSchema() {
+    const mux1First = document.getElementById("mux1_first").checked;
+    const mux1Second = document.getElementById("mux1_second").checked;
+    const mux2First = document.getElementById("mux2_first").checked;
+    const mux2Second = document.getElementById("mux2_second").checked;
+    const mux4First = document.getElementById("mux4_first").checked;
+    const mux4Second = document.getElementById("mux4_second").checked;
+
+    const image = document.getElementById('scheme_image');
+
+    if (mux1First && mux2First && mux4First) {
+        image.src = '../images/schema-pictures/FREQ0_PHASE0_bypass-SIN-ROM.png';
+    }
+
+    if (mux1First && mux2First && mux4Second) {
+        image.src = '../images/schema-pictures/FREQ0_PHASE0_SIN-ROM.png';
+    }
+
+    if (mux1First && mux2Second && mux4First) {
+        image.src = '../images/schema-pictures/FREQ0_PHASE1_bypass-SIN-ROM.png';
+    }
+
+    if (mux1First && mux2Second && mux4Second) {
+        image.src = '../images/schema-pictures/FREQ0_PHASE1_SIN-ROM.png';
+    }
+
+    if (mux1Second && mux2First && mux4First) {
+        image.src = '../images/schema-pictures/FREQ1_PHASE0_bypass-SIN-ROM.png';
+    }
+
+    if (mux1Second && mux2First && mux4Second) {
+        image.src = '../images/schema-pictures/FREQ1_PHASE0_SIN-ROM.png';
+    }
+
+    if (mux1Second && mux2Second && mux4First) {
+        image.src = '../images/schema-pictures/FREQ1_PHASE1_bypass-SIN-ROM.png';
+    }
+
+    if (mux1Second && mux2Second && mux4Second) {
+        image.src = '../images/schema-pictures/FREQ1_PHASE1_SIN-ROM.png';
+    }
 }
 
 let graphData = getGraphData();
