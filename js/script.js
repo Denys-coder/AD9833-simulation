@@ -1,3 +1,7 @@
+let graphData = getGraphData();
+let graphLayout = getGraphLayout();
+Plotly.newPlot("graphContainer", graphData, graphLayout, {displayModeBar: false});
+
 function changePreset() {
     const selectedOption = document.getElementById("presets").value;
     if (selectedOption === 'preset 1') {
@@ -42,17 +46,20 @@ function unselectPreset() {
 }
 
 function mux1Changed() {
+
+    const controlRegister = document.getElementById("control_register");
+    if (controlRegister.value.length < 5) {
+        return;
+    }
+
     const first = document.getElementById("mux1_first");
     const second = document.getElementById("mux1_second");
-    const controlRegister = document.getElementById("control_register");
 
     // 5 символ - 1 то freq0Reg, 0 - freq1Reg
-
     if (first.checked) {
         // symbol with index 4 should be '0'
         controlRegister.value = controlRegister.value.substring(0, 4) + '0' + controlRegister.value.substring(5);
     }
-
     if (second.checked) {
         // symbol with index 4 should be '1'
         controlRegister.value = controlRegister.value.substring(0, 4) + '1' + controlRegister.value.substring(5);
@@ -62,17 +69,20 @@ function mux1Changed() {
 }
 
 function mux2Changed() {
+
+    const controlRegister = document.getElementById("control_register");
+    if (controlRegister.value.length < 6) {
+        return;
+    }
+
     const first = document.getElementById("mux2_first");
     const second = document.getElementById("mux2_second");
-    const controlRegister = document.getElementById("control_register");
 
     // 6 символ - 1 то phase1Reg, 0 - phase0Reg
-
     if (first.checked) {
         // symbol with index 5 should be '0'
         controlRegister.value = controlRegister.value.substring(0, 5) + '0' + controlRegister.value.substring(6);
     }
-
     if (second.checked) {
         // symbol with index 5 should be '1'
         controlRegister.value = controlRegister.value.substring(0, 5) + '1' + controlRegister.value.substring(6);
@@ -83,17 +93,20 @@ function mux2Changed() {
 }
 
 function mux4Changed() {
+
+    const controlRegister = document.getElementById("control_register");
+    if (controlRegister.value.length < 15) {
+        return;
+    }
+
     const first = document.getElementById("mux4_first");
     const second = document.getElementById("mux4_second");
-    const controlRegister = document.getElementById("control_register");
 
     // 15 символ - 1 то sinRomOutput, 0 - sinRomInput
-
     if (first.checked) {
         // symbol with index 14 should be '1'
         controlRegister.value = controlRegister.value.substring(0, 14) + '1' + controlRegister.value.substring(15);
     }
-
     if (second.checked) {
         // symbol with index 14 should be '0'
         controlRegister.value = controlRegister.value.substring(0, 14) + '0' + controlRegister.value.substring(15);
@@ -178,61 +191,95 @@ function updateSchema() {
     }
 }
 
-let graphData = getGraphData();
-let graphLayout = getGraphLayout();
-Plotly.newPlot("graphContainer", graphData, graphLayout, {displayModeBar: false});
+let freq0Reg;
+let freq1Reg;
+let phaseAccumulator;
+let phase0Reg;
+let phase1Reg;
+let controlRegister;
+let baseFrequency;
+let centralSum = 0;
+let sinRomOutput = 0;
+let DAC10bit = 0;
+let totalExecutedTacts = 0;
+let startRangeX = 0;
+let endRangeX = 100;
+let state = "stopped"; // can be "running" or "stopped"
+let tactsToRun;
+let d1;
+let d10;
+let d11;
 
-let intervalID;
+function onRun(newTactsToRun = Infinity, continueGenerate = false) {
 
-function generateGraph() {
-    clearInterval(intervalID);
+    if (state === "running") {
+        alert("График и так запущен");
+        return;
+    }
+
+    let inputFieldsCorrect = checkInputFields();
+    if (!inputFieldsCorrect) {
+        alert("Некоторые поля введены некорректно");
+        return;
+    }
 
     // values of html fields (datatype is number)
-    let freq0Reg = parseInt(document.getElementById("freq0_reg").value, 2);
-    let freq1Reg = parseInt(document.getElementById("freq1_reg").value, 2);
-    let phaseAccumulator = parseInt(document.getElementById("phase_accumulator").value, 2);
-    let phase0Reg = parseInt(document.getElementById("phase0_reg").value, 2);
-    let phase1Reg = parseInt(document.getElementById("phase1_reg").value, 2);
-    let controlRegister = parseInt(document.getElementById("control_register").value, 2);
-    let baseFrequency = 1 / (parseInt(document.getElementById("base_frequency").value) * parseInt(document.getElementById("base_frequency_unit").value));
+    if (continueGenerate === false) {
+        freq0Reg = parseInt(document.getElementById("freq0_reg").value, 2);
+        freq1Reg = parseInt(document.getElementById("freq1_reg").value, 2);
+        phaseAccumulator = parseInt(document.getElementById("phase_accumulator").value, 2);
+        phase0Reg = parseInt(document.getElementById("phase0_reg").value, 2);
+        phase1Reg = parseInt(document.getElementById("phase1_reg").value, 2);
+        controlRegister = parseInt(document.getElementById("control_register").value, 2);
+        baseFrequency = 1 / (parseInt(document.getElementById("base_frequency").value) * parseInt(document.getElementById("base_frequency_unit").value));
 
-    // registers data (datatype is boolean)
-    let d1 = (controlRegister & 0b0_000_000_000_000_010) === 0; // 'true' for bypass "SIN ROM" and 'false' for "SIN ROM"
-    let d10 = (controlRegister & 0b0_000_010_000_000_000) === 0; // 'true' for "PHASE1 REG" and 'false' for "PHASE0 REG"
-    let d11 = (controlRegister & 0b0_000_100_000_000_000) === 0; // 'true' for "FREQ1 REG" and 'false' for "FREQ0 REG"
+        document.getElementById("current_freq0_reg").value = document.getElementById("current_freq0_reg").value + " " + freq0Reg;
+        document.getElementById("current_freq1_reg").value = document.getElementById("current_freq1_reg").value + " " + freq1Reg;
+        document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
+        document.getElementById("current_phase0_reg").value = document.getElementById("current_phase0_reg").value + " " + phase0Reg;
+        document.getElementById("current_phase1_reg").value = document.getElementById("current_phase1_reg").value + " " + phase1Reg;
+        document.getElementById("current_control_register").value = document.getElementById("current_control_register").value + " " + controlRegister;
+
+        // registers data (datatype is boolean)
+        d1 = (controlRegister & 0b0_000_000_000_000_010) === 0; // 'true' for bypass "SIN ROM" and 'false' for "SIN ROM"
+        d10 = (controlRegister & 0b0_000_010_000_000_000) === 0; // 'true' for "PHASE1 REG" and 'false' for "PHASE0 REG"
+        d11 = (controlRegister & 0b0_000_100_000_000_000) === 0; // 'true' for "FREQ1 REG" and 'false' for "FREQ0 REG"
+    }
+
+    state = "running";
+    if (tactsToRun !== undefined) {
+        tactsToRun = newTactsToRun;
+    }
 
     graphData = getGraphData();
     graphLayout = getGraphLayout();
 
-    const graphContainer = document.getElementById("graphContainer");
-    Plotly.purge(graphContainer);
-    Plotly.newPlot("graphContainer", graphData, graphLayout, {displayModeBar: false});
+    let handler = function () {
 
-    // phaseAccumulator already defined
-    let centralSum = 0;
-    let sinRomOutput = 0;
-    let DAC10bit = 0;
-    let i = 0;
+        if (state === "stopped" || tactsToRun === 0) {
+            clearInterval(intervalID);
+        }
 
-    intervalID = setInterval(function () {
         let mux1 = d11 ? freq0Reg : freq1Reg;
         phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
+        document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
         let mux2 = d10 ? phase0Reg : phase1Reg;
         centralSum = phaseAccumulator + mux2;
+        document.getElementById("current_central_sum").value = document.getElementById("current_central_sum").value + " " + centralSum;
         // angle in radians
         let sinRomInput = ((2 * Math.PI) / (Math.pow(2, 12) - 1)) * centralSum;
         let sinRom = Math.sin(sinRomInput + sinRomInput);
         sinRomOutput = (1 / (Math.pow(2, 10) - 1)) * sinRom;
+        document.getElementById("current_sin_rom").value = document.getElementById("current_sin_rom").value + " " + sinRomOutput;
         let mux4 = d1 ? sinRomOutput : sinRomInput;
         DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
+        document.getElementById("current_10_bit_dac").value = document.getElementById("current_10_bit_dac").value + " " + DAC10bit;
 
-        let startRangeX = 0;
-        if (i > 100) {
-            startRangeX += i - 100;
+        if (totalExecutedTacts > 100) {
+            startRangeX += totalExecutedTacts - 100;
         }
-        let endRangeX = 100;
-        if (i > 100) {
-            endRangeX += i - 100;
+        if (totalExecutedTacts > 100) {
+            endRangeX += totalExecutedTacts - 100;
         }
 
         let layoutUpdate = Object.assign({}, graphLayout);
@@ -243,11 +290,36 @@ function generateGraph() {
                 easing: "linear"
             }
         });
-        Plotly.extendTraces("graphContainer", {x: [[i]], y: [[DAC10bit]]}, [0]);
+        Plotly.extendTraces("graphContainer", {x: [[totalExecutedTacts]], y: [[DAC10bit]]}, [0]);
 
-        i++;
+        totalExecutedTacts++;
+        tactsToRun -= 1;
 
-    }, baseFrequency * 1000);
+    };
+
+    let intervalID = setInterval(handler, baseFrequency * 1000);
+
+}
+
+function runNTacts() {
+    let tactsToRun = document.getElementById("tactsToRunInput").value;
+    onRun(tactsToRun);
+}
+
+function onStop() {
+    if (state === "stopped") {
+        alert("График и так остановлен");
+        return;
+    }
+    state = "stopped";
+}
+
+function onContinue() {
+    if (state === "running") {
+        alert("График и так запущен");
+        return;
+    }
+    onRun(undefined, true);
 }
 
 function getGraphData() {
@@ -261,7 +333,7 @@ function getGraphData() {
 function getGraphLayout() {
     return {
         xaxis: {
-            title: "seconds",
+            title: "tacts",
             range: [0, 100],
         },
         yaxis: {
@@ -269,4 +341,48 @@ function getGraphLayout() {
         },
         dragmode: 'pan',
     };
+}
+
+function checkInputFields() {
+    let freq0Reg = document.getElementById("freq0_reg").value;
+    let freq1Reg = document.getElementById("freq1_reg");
+    let phaseAccumulator = document.getElementById("phase_accumulator").value;
+    let phase0Reg = document.getElementById("phase0_reg").value;
+    let phase1Reg = document.getElementById("phase1_reg").value;
+    let controlRegister = document.getElementById("control_register").value;
+    let baseFrequency = document.getElementById("base_frequency").value;
+
+    if (isBinaryString(freq0Reg) && freq0Reg.length !== 28) {
+        return false;
+    }
+
+    if (isBinaryString(freq1Reg) && freq1Reg.length !== 28) {
+        return false;
+    }
+
+    if (isBinaryString(phaseAccumulator) && phaseAccumulator.length !== 28) {
+        return false;
+    }
+
+    if (isBinaryString(phase0Reg) && phase0Reg.length !== 12) {
+        return false;
+    }
+
+    if (isBinaryString(phase1Reg) && phase1Reg.length !== 12) {
+        return false;
+    }
+
+    if (isBinaryString(controlRegister) && controlRegister.length !== 16) {
+        return false;
+    }
+
+    if (isBinaryString(baseFrequency) && baseFrequency.length > 9) {
+        return false;
+    }
+
+    return true;
+}
+
+function isBinaryString(str) {
+    return /^[01]+$/.test(str);
 }
