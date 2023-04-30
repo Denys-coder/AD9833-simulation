@@ -118,12 +118,25 @@
 </div>
 
 <div>
-    <img src="../images/schema-pictures/no-path-schema.png" id="scheme_image" width="1701" height="982" alt="control schema">
+    <img src="../images/schema-pictures/no-path-schema.png" id="scheme_image" width="1701" height="982"
+         alt="control schema">
 </div>
+
+<!-- Кнопка "Run" / "Run n tacts" берёт значения из полей для ввода, обновляет значения
+     по которым генерируется график и запускает генерацию графика, если нажать эту кнопку когда график
+     и так генерируется то вывести модальное окно с ошибкой. -->
+
+<!-- Кнопка "Stop" ставит флаг что генерация графика должна остановиться
+     и функция которая генерирует график всё время проверяет флаг и если надо останавливается,
+     если нажать эту кнопку когда график не был ниразу запущен или на паузе то вывести модальное окно с ошибкой. -->
+
+<!-- Кнопка "Continue" продолжает выполнение графика, если график и так работает или
+     если ещё небыл ниразу запущен, то вывести соответствующие ошибки. -->
+
+<!-- Старый график никогда не удаляется. -->
 
 <div class="lightgray">
     <button onclick="generateGraph()" id="generate_graph">Run</button>
-
     <button>Run 1 tact</button>
     <button>Run 10 tacts</button>
     <button>Run 20 tacts</button>
@@ -134,7 +147,7 @@
     <button>Stop</button>
     <br>
     <br>
-    <button>Resume</button>
+    <button>Continue</button>
 </div>
 
 <div id="graphContainer"></div>
