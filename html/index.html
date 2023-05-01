@@ -9,9 +9,9 @@
 <body>
 
 <div class="lightblue">
-    <label for="presets">Preset:</label>
-    <select id="presets" onchange="changePreset()">
-        <option selected disabled value=""> -- select preset --</option>
+    <label for="preset_select">Preset:</label>
+    <select id="preset_select" onchange="changePreset()">
+        <option selected disabled> -- select preset --</option>
         <option value="preset 1">preset 1</option>
         <option value="preset 2">preset 2</option>
         <option value="preset 3">preset 3</option>
@@ -19,39 +19,39 @@
     <br>
     <br>
 
-    <label for="freq0_reg">FREQ0 REG (28 bit)</label>
+    <label for="freq0_reg_input">FREQ0 REG (28 bit)</label>
     <br>
-    <input type="text" id="freq0_reg" value="" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="freq1_reg">FREQ1 REG (28 bit)</label>
-    <br>
-    <input type="text" id="freq1_reg" value="" size="40" onchange="unselectPreset()">
+    <input type="text" id="freq0_reg_input" size="40" onchange="unselectPreset()">
     <br>
     <br>
 
-    <label for="phase_accumulator">PHASE ACCUMULATOR (28-BIT)</label>
+    <label for="freq1_reg_input">FREQ1 REG (28 bit)</label>
     <br>
-    <input type="text" id="phase_accumulator" value="" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="phase0_reg">PHASE0 REG (12 bit)</label>
-    <br>
-    <input type="text" id="phase0_reg" value="" size="40" onchange="unselectPreset()">
+    <input type="text" id="freq1_reg_input" size="40" onchange="unselectPreset()">
     <br>
     <br>
 
-    <label for="phase1_reg">PHASE1 REG (12 bit)</label>
+    <label for="phase_accumulator_input">PHASE ACCUMULATOR (28-BIT)</label>
     <br>
-    <input type="text" id="phase1_reg" value="" size="40" onchange="unselectPreset()">
+    <input type="text" id="phase_accumulator_input" size="40" onchange="unselectPreset()">
     <br>
     <br>
 
-    <label for="control_register">CONTROL REGISTER (16 bit)</label>
+    <label for="phase0_reg_input">PHASE0 REG (12 bit)</label>
     <br>
-    <input type="text" id="control_register" value="" size="40" onchange="unselectPreset(); updateMuxes();">
+    <input type="text" id="phase0_reg_input" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
+
+    <label for="phase1_reg_input">PHASE1 REG (12 bit)</label>
+    <br>
+    <input type="text" id="phase1_reg_input" size="40" onchange="unselectPreset()">
+    <br>
+    <br>
+
+    <label for="control_register_input">CONTROL REGISTER (16 bit)</label>
+    <br>
+    <input type="text" id="control_register_input" size="40" onchange="unselectPreset(); updateMuxes();">
     <br>
     <br>
 
@@ -83,16 +83,15 @@
     </fieldset>
     <br>
 
-    <label for="base_frequency">base frequency</label>
+    <label for="base_frequency_input">base frequency</label>
     <br>
-    <input type="text" id="base_frequency" value="10">
+    <input type="text" id="base_frequency_input" value="10">
 
-    <select id="base_frequency_unit">
+    <select id="base_frequency_unit_select">
         <option value="1">Hz</option>
-        <option value="1000">KHz</option>
-        <option value="1000000">MHz</option>
+        <option value="1_000">KHz</option>
+        <option value="1_000_000">MHz</option>
     </select>
-    <br>
     <br>
 </div>
 
@@ -116,12 +115,11 @@
     <p id="current_sin_rom">SIN ROM:</p>
     <br>
     <p id="current_10_bit_dac">10-BIT DAC:</p>
-    <br>
 </div>
 
 <div>
-    <img src="../images/schema-pictures/no-path-schema.png" id="scheme_image" width="1696" height="982"
-         alt="control schema">
+    <img src="../images/schema-pictures/no-path-schema.png" id="functional_block_diagram" width="1696" height="982"
+         alt="functional block diagram" class="functional_block_diagram">
 </div>
 
 <!-- Кнопка "Run" / "Run n tacts" берёт значения из полей для ввода, обновляет значения
@@ -138,25 +136,25 @@
 <!-- Старый график никогда не удаляется. -->
 
 <div class="lightgray">
-    <button onclick="onRun()" id="generate_graph">Run</button>
-    <button onclick="onRun(1)">Run 1 tact</button>
-    <button onclick="onRun(10)">Run 10 tacts</button>
-    <button onclick="onRun(20)">Run 20 tacts</button>
-    <button onclick="onRun(30)">Run 30 tacts</button>
-    <button onclick="runNTacts()">
+    <button onclick="runGraph()" id="generate_graph">Run</button>
+    <button onclick="runGraph(1)">Run 1 tact</button>
+    <button onclick="runGraph(10)">Run 10 tacts</button>
+    <button onclick="runGraph(20)">Run 20 tacts</button>
+    <button onclick="runGraph(30)">Run 30 tacts</button>
+    <button onclick="runNTactsGraph()">
         Run
-        <input type="text" size="1" id="tactsToRunInput" onclick="event.stopPropagation()">
+        <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()">
         tacts
     </button>
     <br>
     <br>
-    <button onclick="onStop()">Stop</button>
+    <button onclick="stopGraph()">Stop</button>
     <br>
     <br>
-    <button onclick="onContinue()">Continue</button>
+    <button onclick="continueGraph()">Continue</button>
 </div>
 
-<div id="graphContainer"></div>
+<div class="graphContainer" id="graphContainer"></div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="../js/script.js"></script>

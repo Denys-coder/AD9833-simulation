@@ -3,82 +3,96 @@ let graphLayout = getGraphLayout();
 Plotly.newPlot("graphContainer", graphData, graphLayout, {displayModeBar: false});
 
 function changePreset() {
-    const selectedOption = document.getElementById("presets").value;
-    if (selectedOption === 'preset 1') {
-        updateRegisters('0110011000111001101001110001',
-            '0110011000111001101001110001',
-            '0110011000111001101001110001',
-            '011001100011',
-            '011001100011',
-            '0110011000111001');
-    } else if (selectedOption === 'preset 2') {
-        updateRegisters('0110011011111101001001110001',
-            '0111010110110110111000110011',
-            '0110001011101101101101010001',
-            '001011101010',
-            '001101011010',
-            '0011010100100010');
-    } else if (selectedOption === 'preset 3') {
-        updateRegisters('0110110110111011011111110101',
-            '0101011011101101001000100101',
-            '0110011001001011111001010101',
-            '011100001101',
-            '010001001111',
-            '0111010110101011');
+
+    const selectedPreset = document.getElementById("preset_select").value;
+
+    switch (selectedPreset) {
+        case 'preset 1':
+            updateRegisterInput('0110011000111001101001110001',
+                '0110011000111001101001110001',
+                '0110011000111001101001110001',
+                '011001100011',
+                '011001100011',
+                '0110011000111001');
+            break;
+        case 'preset 2':
+            updateRegisterInput('0110011011111101001001110001',
+                '0111010110110110111000110011',
+                '0110001011101101101101010001',
+                '001011101010',
+                '001101011010',
+                '0011010100100010');
+            break;
+        case 'preset 3':
+            updateRegisterInput('0110110110111011011111110101',
+                '0101011011101101001000100101',
+                '0110011001001011111001010101',
+                '011100001101',
+                '010001001111',
+                '0111010110101011');
+            break;
     }
+
     updateMuxes();
+
 }
 
-function updateRegisters(freq0Reg, freq1Reg, phaseAccumulator, phase0Reg, phase1Reg, controlRegister) {
-    document.querySelector('#freq0_reg').value = freq0Reg;
-    document.querySelector('#freq1_reg').value = freq1Reg;
-    document.querySelector('#phase_accumulator').value = phaseAccumulator;
-    document.querySelector('#phase0_reg').value = phase0Reg;
-    document.querySelector('#phase1_reg').value = phase1Reg;
-    document.querySelector('#control_register').value = controlRegister;
+function updateRegisterInput(freq0Reg, freq1Reg, phaseAccumulator, phase0Reg, phase1Reg, controlRegister) {
+
+    document.getElementById('freq0_reg_input').value = freq0Reg;
+    document.getElementById('freq1_reg_input').value = freq1Reg;
+    document.getElementById('phase_accumulator_input').value = phaseAccumulator;
+    document.getElementById('phase0_reg_input').value = phase0Reg;
+    document.getElementById('phase1_reg_input').value = phase1Reg;
+    document.getElementById('control_register_input').value = controlRegister;
+
 }
 
 function unselectPreset() {
-    const presetsSelect = document.querySelector('#presets');
-    if (presetsSelect.selectedIndex !== 0) {
-        presetsSelect.selectedIndex = 0;
-    }
+
+    document.getElementById('preset_select').selectedIndex = 0;
+
 }
 
 function mux1Changed() {
 
-    const controlRegister = document.getElementById("control_register");
+    unselectPreset();
+
+    const controlRegister = document.getElementById("control_register_input");
     if (controlRegister.value.length < 5) {
         return;
     }
 
-    const first = document.getElementById("mux1_first");
-    const second = document.getElementById("mux1_second");
+    const firstOption = document.getElementById("mux1_first");
+    const secondOption = document.getElementById("mux1_second");
 
-    // 5 символ - 1 то freq0Reg, 0 - freq1Reg
-    if (first.checked) {
+    // 5 символ 0 - mux1_first
+    if (firstOption.checked) {
         // symbol with index 4 should be '0'
         controlRegister.value = controlRegister.value.substring(0, 4) + '0' + controlRegister.value.substring(5);
     }
-    if (second.checked) {
+    if (secondOption.checked) {
         // symbol with index 4 should be '1'
         controlRegister.value = controlRegister.value.substring(0, 4) + '1' + controlRegister.value.substring(5);
     }
 
     updateSchema();
+
 }
 
 function mux2Changed() {
 
-    const controlRegister = document.getElementById("control_register");
+    unselectPreset();
+
+    const controlRegister = document.getElementById("control_register_input");
     if (controlRegister.value.length < 6) {
         return;
     }
 
+    // 6 символ 0 - mux2_first
     const first = document.getElementById("mux2_first");
     const second = document.getElementById("mux2_second");
 
-    // 6 символ - 1 то phase1Reg, 0 - phase0Reg
     if (first.checked) {
         // symbol with index 5 should be '0'
         controlRegister.value = controlRegister.value.substring(0, 5) + '0' + controlRegister.value.substring(6);
@@ -94,15 +108,17 @@ function mux2Changed() {
 
 function mux4Changed() {
 
-    const controlRegister = document.getElementById("control_register");
+    unselectPreset();
+
+    const controlRegister = document.getElementById("control_register_input");
     if (controlRegister.value.length < 15) {
         return;
     }
 
+    // 15 символ 1 - mux4_second
     const first = document.getElementById("mux4_first");
     const second = document.getElementById("mux4_second");
 
-    // 15 символ - 1 то sinRomOutput, 0 - sinRomInput
     if (first.checked) {
         // symbol with index 14 should be '1'
         controlRegister.value = controlRegister.value.substring(0, 14) + '1' + controlRegister.value.substring(15);
@@ -113,35 +129,37 @@ function mux4Changed() {
     }
 
     updateSchema();
+
 }
 
 function updateMuxes() {
-    let controlRegister = parseInt(document.getElementById("control_register").value, 2);
+
+    let controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
 
     // registers data (datatype is boolean)
-    let d1 = (controlRegister & 0b0_000_000_000_000_010) === 0; // 'true' for bypass "SIN ROM" and 'false' for "SIN ROM"
-    let d10 = (controlRegister & 0b0_000_010_000_000_000) === 0; // 'true' for "PHASE1 REG" and 'false' for "PHASE0 REG"
-    let d11 = (controlRegister & 0b0_000_100_000_000_000) === 0; // 'true' for "FREQ1 REG" and 'false' for "FREQ0 REG"
+    let d1 = ((controlRegister & 0b0_000_000_000_000_010) === 0) ? 0 : 1;
+    let d10 = ((controlRegister & 0b0_000_010_000_000_000) === 0) ? 0 : 1;
+    let d11 = ((controlRegister & 0b0_000_100_000_000_000) === 0) ? 0 : 1;
 
     // update mux1 if needed
-    if (d11) {
+    if (d11 === 0) {
         document.getElementById("mux1_first").checked = true;
     } else {
         document.getElementById("mux1_second").checked = true;
     }
 
     // update mux2 if needed
-    if (d10) {
+    if (d10 === 0) {
         document.getElementById("mux2_first").checked = true;
     } else {
         document.getElementById("mux2_second").checked = true;
     }
 
     // update mux4 if needed
-    if (d1) {
-        document.getElementById("mux4_second").checked = true;
-    } else {
+    if (d1 === 1) {
         document.getElementById("mux4_first").checked = true;
+    } else {
+        document.getElementById("mux4_second").checked = true;
     }
 
     updateSchema();
@@ -149,6 +167,7 @@ function updateMuxes() {
 }
 
 function updateSchema() {
+
     const mux1First = document.getElementById("mux1_first").checked;
     const mux1Second = document.getElementById("mux1_second").checked;
     const mux2First = document.getElementById("mux2_first").checked;
@@ -156,7 +175,7 @@ function updateSchema() {
     const mux4First = document.getElementById("mux4_first").checked;
     const mux4Second = document.getElementById("mux4_second").checked;
 
-    const image = document.getElementById('scheme_image');
+    const image = document.getElementById("functional_block_diagram");
 
     if (mux1First && mux2First && mux4First) {
         image.src = '../images/schema-pictures/FREQ0_PHASE0_bypass-SIN-ROM.png';
@@ -189,6 +208,7 @@ function updateSchema() {
     if (mux1Second && mux2Second && mux4Second) {
         image.src = '../images/schema-pictures/FREQ1_PHASE1_SIN-ROM.png';
     }
+
 }
 
 let freq0Reg;
@@ -205,12 +225,15 @@ let totalExecutedTacts = 0;
 let startRangeX = 0;
 let endRangeX = 100;
 let state = "stopped"; // can be "running" or "stopped"
+let started = false;
 let tactsToRun;
 let d1;
 let d10;
 let d11;
 
-function onRun(newTactsToRun = Infinity, continueGenerate = false) {
+function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
+
+    started = true;
 
     if (state === "running") {
         alert("График и так запущен");
@@ -225,13 +248,13 @@ function onRun(newTactsToRun = Infinity, continueGenerate = false) {
 
     // values of html fields (datatype is number)
     if (continueGenerate === false) {
-        freq0Reg = parseInt(document.getElementById("freq0_reg").value, 2);
-        freq1Reg = parseInt(document.getElementById("freq1_reg").value, 2);
-        phaseAccumulator = parseInt(document.getElementById("phase_accumulator").value, 2);
-        phase0Reg = parseInt(document.getElementById("phase0_reg").value, 2);
-        phase1Reg = parseInt(document.getElementById("phase1_reg").value, 2);
-        controlRegister = parseInt(document.getElementById("control_register").value, 2);
-        baseFrequency = 1 / (parseInt(document.getElementById("base_frequency").value) * parseInt(document.getElementById("base_frequency_unit").value));
+        freq0Reg = parseInt(document.getElementById("freq0_reg_input").value, 2);
+        freq1Reg = parseInt(document.getElementById("freq1_reg_input").value, 2);
+        phaseAccumulator = parseInt(document.getElementById("phase_accumulator_input").value, 2);
+        phase0Reg = parseInt(document.getElementById("phase0_reg_input").value, 2);
+        phase1Reg = parseInt(document.getElementById("phase1_reg_input").value, 2);
+        controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
+        baseFrequency = 1 / (parseInt(document.getElementById("base_frequency_input").value) * parseInt(document.getElementById("base_frequency_unit_select").value));
 
         document.getElementById("current_freq0_reg").value = document.getElementById("current_freq0_reg").value + " " + freq0Reg;
         document.getElementById("current_freq1_reg").value = document.getElementById("current_freq1_reg").value + " " + freq1Reg;
@@ -301,36 +324,44 @@ function onRun(newTactsToRun = Infinity, continueGenerate = false) {
 
 }
 
-function runNTacts() {
-    let tactsToRun = document.getElementById("tactsToRunInput").value;
-    onRun(tactsToRun);
+function runNTactsGraph() {
+
+    let tactsToRun = document.getElementById("tacts_to_run_input").value;
+    runGraph(tactsToRun);
 }
 
-function onStop() {
+function stopGraph() {
+
     if (state === "stopped") {
         alert("График и так остановлен");
         return;
     }
     state = "stopped";
+
 }
 
-function onContinue() {
+function continueGraph() {
+
     if (state === "running") {
         alert("График и так запущен");
         return;
     }
-    onRun(undefined, true);
+    runGraph(undefined, true);
+
 }
 
 function getGraphData() {
+
     return [{
         x: [],
         y: [],
         mode: "lines"
     }];
+
 }
 
 function getGraphLayout() {
+
     return {
         xaxis: {
             title: "tacts",
@@ -341,16 +372,18 @@ function getGraphLayout() {
         },
         dragmode: 'pan',
     };
+
 }
 
 function checkInputFields() {
-    let freq0Reg = document.getElementById("freq0_reg").value;
-    let freq1Reg = document.getElementById("freq1_reg");
-    let phaseAccumulator = document.getElementById("phase_accumulator").value;
-    let phase0Reg = document.getElementById("phase0_reg").value;
-    let phase1Reg = document.getElementById("phase1_reg").value;
-    let controlRegister = document.getElementById("control_register").value;
-    let baseFrequency = document.getElementById("base_frequency").value;
+
+    let freq0Reg = document.getElementById("freq0_reg_input").value;
+    let freq1Reg = document.getElementById("freq1_reg_input");
+    let phaseAccumulator = document.getElementById("phase_accumulator_input").value;
+    let phase0Reg = document.getElementById("phase0_reg_input").value;
+    let phase1Reg = document.getElementById("phase1_reg_input").value;
+    let controlRegister = document.getElementById("control_register_input").value;
+    let baseFrequency = document.getElementById("base_frequency_input").value;
 
     if (isBinaryString(freq0Reg) && freq0Reg.length !== 28) {
         return false;
@@ -381,8 +414,11 @@ function checkInputFields() {
     }
 
     return true;
+
 }
 
 function isBinaryString(str) {
+
     return /^[01]+$/.test(str);
+
 }

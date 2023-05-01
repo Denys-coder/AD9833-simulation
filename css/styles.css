@@ -4,11 +4,11 @@
     margin: 0;
 }
 
-#graphContainer {
+.graphContainer {
     width: 90%;
 }
 
-#scheme_image {
+.functional_block_diagram {
     object-fit: scale-down;
     width: 50%;
     height: 50%;
