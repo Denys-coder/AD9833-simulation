@@ -218,19 +218,22 @@ let phase0Reg;
 let phase1Reg;
 let controlRegister;
 let baseFrequency;
+
+let d1;
+let d10;
+let d11;
+
 let centralSum = 0;
 let sinRomOutput = 0;
 let DAC10bit = 0;
 let startXAxisRange = 0;
 let endXAxisRange = 100;
+
 let state = "stopped"; // "running" || "paused" || "stopped"
 let totalExecutedTacts = 0;
 let tactsToRun;
-let d1;
-let d10;
-let d11;
 
-function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
+function runGraph(tactsToRun = Infinity, continueGenerate = false) {
 
     if (state === "running") {
         alert("График и так запущен");
@@ -243,6 +246,7 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         return;
     }
 
+    // continueGenerate === true can only be after graph was started, so this fields must be already initialized
     if (continueGenerate === false) {
         freq0Reg = parseInt(document.getElementById("freq0_reg_input").value, 2);
         freq1Reg = parseInt(document.getElementById("freq1_reg_input").value, 2);
@@ -258,17 +262,18 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
     }
 
     state = "running";
-    if (tactsToRun !== undefined) {
-        tactsToRun = newTactsToRun;
+    if (tactsToRun !== Infinity) {
+        globalThis.tactsToRun = tactsToRun;
     }
-
-    graphData = getGraphData();
-    graphLayout = getGraphLayout();
 
     let handler = function () {
 
-        if (state === "stopped" || tactsToRun === 0) {
+        if (state === "stopped" || globalThis.tactsToRun === 0) {
             state = "stopped";
+            clearInterval(intervalID);
+        }
+
+        if (state === "paused") {
             clearInterval(intervalID);
         }
 
@@ -279,10 +284,10 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_phase1_reg").value = document.getElementById("current_phase1_reg").value + " " + phase1Reg;
         document.getElementById("current_control_register").value = document.getElementById("current_control_register").value + " " + controlRegister;
 
-        let mux1 = d11 ? freq0Reg : freq1Reg;
+        let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
         phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
         document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
-        let mux2 = d10 ? phase0Reg : phase1Reg;
+        let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
         centralSum = phaseAccumulator + mux2;
         document.getElementById("current_central_sum").value = document.getElementById("current_central_sum").value + " " + centralSum;
         // angle in radians
@@ -290,20 +295,18 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         let sinRom = Math.sin(sinRomInput + sinRomInput);
         sinRomOutput = (1 / (Math.pow(2, 10) - 1)) * sinRom;
         document.getElementById("current_sin_rom").value = document.getElementById("current_sin_rom").value + " " + sinRomOutput;
-        let mux4 = d1 ? sinRomOutput : sinRomInput;
+        let mux4 = d1 === 1 ? sinRomInput : sinRomOutput;
         DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
         document.getElementById("current_10_bit_dac").value = document.getElementById("current_10_bit_dac").value + " " + DAC10bit;
 
         if (totalExecutedTacts > 100) {
-            startXAxisRange += totalExecutedTacts - 100;
-        }
-        if (totalExecutedTacts > 100) {
-            endXAxisRange += totalExecutedTacts - 100;
+            startXAxisRange++;
+            endXAxisRange++;
         }
 
         let layoutUpdate = Object.assign({}, graphLayout);
-        layoutUpdate.xaxis.range = [startXAxisRange, endXAxisRange];
-        Plotly.animate("graphContainer", {layout: layoutUpdate}, {
+        graphLayout.xaxis.range = [startXAxisRange, endXAxisRange];
+        Plotly.animate("graphContainer", {layout: graphLayout}, {
             transition: {
                 duration: 1000 / baseFrequency,
                 easing: "linear"
@@ -312,7 +315,7 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         Plotly.extendTraces("graphContainer", {x: [[totalExecutedTacts]], y: [[DAC10bit]]}, [0]);
 
         totalExecutedTacts++;
-        tactsToRun -= 1;
+        globalThis.tactsToRun--;
 
     };
 
