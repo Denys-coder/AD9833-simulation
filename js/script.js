@@ -58,25 +58,25 @@ function mux1Changed() {
 
     unselectPreset();
 
-    const controlRegister = document.getElementById("control_register_input");
-    if (controlRegister.value.length < 5) {
+    updateSchema();
+
+    const controlRegisterInput = document.getElementById("control_register_input");
+    if (controlRegisterInput.value.length < 5) {
         return;
     }
 
     const firstOption = document.getElementById("mux1_first");
     const secondOption = document.getElementById("mux1_second");
 
-    // 5 символ 0 - mux1_first
+    // mux1_first: 5 символ - 0
     if (firstOption.checked) {
         // symbol with index 4 should be '0'
-        controlRegister.value = controlRegister.value.substring(0, 4) + '0' + controlRegister.value.substring(5);
+        controlRegisterInput.value = controlRegisterInput.value.substring(0, 4) + '0' + controlRegisterInput.value.substring(5);
     }
     if (secondOption.checked) {
         // symbol with index 4 should be '1'
-        controlRegister.value = controlRegister.value.substring(0, 4) + '1' + controlRegister.value.substring(5);
+        controlRegisterInput.value = controlRegisterInput.value.substring(0, 4) + '1' + controlRegisterInput.value.substring(5);
     }
-
-    updateSchema();
 
 }
 
@@ -84,25 +84,25 @@ function mux2Changed() {
 
     unselectPreset();
 
-    const controlRegister = document.getElementById("control_register_input");
-    if (controlRegister.value.length < 6) {
+    updateSchema();
+
+    const controlRegisterInput = document.getElementById("control_register_input");
+    if (controlRegisterInput.value.length < 6) {
         return;
     }
 
-    // 6 символ 0 - mux2_first
+    // mux2_first: 6 символ - 0
     const first = document.getElementById("mux2_first");
     const second = document.getElementById("mux2_second");
 
     if (first.checked) {
         // symbol with index 5 should be '0'
-        controlRegister.value = controlRegister.value.substring(0, 5) + '0' + controlRegister.value.substring(6);
+        controlRegisterInput.value = controlRegisterInput.value.substring(0, 5) + '0' + controlRegisterInput.value.substring(6);
     }
     if (second.checked) {
         // symbol with index 5 should be '1'
-        controlRegister.value = controlRegister.value.substring(0, 5) + '1' + controlRegister.value.substring(6);
+        controlRegisterInput.value = controlRegisterInput.value.substring(0, 5) + '1' + controlRegisterInput.value.substring(6);
     }
-
-    updateSchema();
 
 }
 
@@ -110,31 +110,31 @@ function mux4Changed() {
 
     unselectPreset();
 
-    const controlRegister = document.getElementById("control_register_input");
-    if (controlRegister.value.length < 15) {
+    updateSchema();
+
+    const controlRegisterInput = document.getElementById("control_register_input");
+    if (controlRegisterInput.value.length < 15) {
         return;
     }
 
-    // 15 символ 1 - mux4_second
+    // mux4_first - 15 символ - 1
     const first = document.getElementById("mux4_first");
     const second = document.getElementById("mux4_second");
 
     if (first.checked) {
         // symbol with index 14 should be '1'
-        controlRegister.value = controlRegister.value.substring(0, 14) + '1' + controlRegister.value.substring(15);
+        controlRegisterInput.value = controlRegisterInput.value.substring(0, 14) + '1' + controlRegisterInput.value.substring(15);
     }
     if (second.checked) {
         // symbol with index 14 should be '0'
-        controlRegister.value = controlRegister.value.substring(0, 14) + '0' + controlRegister.value.substring(15);
+        controlRegisterInput.value = controlRegisterInput.value.substring(0, 14) + '0' + controlRegisterInput.value.substring(15);
     }
-
-    updateSchema();
 
 }
 
 function updateMuxes() {
 
-    let controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
+    const controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
 
     // registers data (datatype is boolean)
     let d1 = ((controlRegister & 0b0_000_000_000_000_010) === 0) ? 0 : 1;
@@ -175,38 +175,38 @@ function updateSchema() {
     const mux4First = document.getElementById("mux4_first").checked;
     const mux4Second = document.getElementById("mux4_second").checked;
 
-    const image = document.getElementById("functional_block_diagram");
+    const functionalBlockDiagram = document.getElementById("functional_block_diagram");
 
     if (mux1First && mux2First && mux4First) {
-        image.src = '../images/schema-pictures/FREQ0_PHASE0_bypass-SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ0_PHASE0_bypass-SIN-ROM.png';
     }
 
     if (mux1First && mux2First && mux4Second) {
-        image.src = '../images/schema-pictures/FREQ0_PHASE0_SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ0_PHASE0_SIN-ROM.png';
     }
 
     if (mux1First && mux2Second && mux4First) {
-        image.src = '../images/schema-pictures/FREQ0_PHASE1_bypass-SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ0_PHASE1_bypass-SIN-ROM.png';
     }
 
     if (mux1First && mux2Second && mux4Second) {
-        image.src = '../images/schema-pictures/FREQ0_PHASE1_SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ0_PHASE1_SIN-ROM.png';
     }
 
     if (mux1Second && mux2First && mux4First) {
-        image.src = '../images/schema-pictures/FREQ1_PHASE0_bypass-SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ1_PHASE0_bypass-SIN-ROM.png';
     }
 
     if (mux1Second && mux2First && mux4Second) {
-        image.src = '../images/schema-pictures/FREQ1_PHASE0_SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ1_PHASE0_SIN-ROM.png';
     }
 
     if (mux1Second && mux2Second && mux4First) {
-        image.src = '../images/schema-pictures/FREQ1_PHASE1_bypass-SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ1_PHASE1_bypass-SIN-ROM.png';
     }
 
     if (mux1Second && mux2Second && mux4Second) {
-        image.src = '../images/schema-pictures/FREQ1_PHASE1_SIN-ROM.png';
+        functionalBlockDiagram.src = '../images/schema-pictures/FREQ1_PHASE1_SIN-ROM.png';
     }
 
 }
@@ -221,19 +221,16 @@ let baseFrequency;
 let centralSum = 0;
 let sinRomOutput = 0;
 let DAC10bit = 0;
+let startXAxisRange = 0;
+let endXAxisRange = 100;
+let state = "stopped"; // "running" || "paused" || "stopped"
 let totalExecutedTacts = 0;
-let startRangeX = 0;
-let endRangeX = 100;
-let state = "stopped"; // can be "running" or "stopped"
-let started = false;
 let tactsToRun;
 let d1;
 let d10;
 let d11;
 
 function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
-
-    started = true;
 
     if (state === "running") {
         alert("График и так запущен");
@@ -246,7 +243,6 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         return;
     }
 
-    // values of html fields (datatype is number)
     if (continueGenerate === false) {
         freq0Reg = parseInt(document.getElementById("freq0_reg_input").value, 2);
         freq1Reg = parseInt(document.getElementById("freq1_reg_input").value, 2);
@@ -256,17 +252,9 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
         baseFrequency = 1 / (parseInt(document.getElementById("base_frequency_input").value) * parseInt(document.getElementById("base_frequency_unit_select").value));
 
-        document.getElementById("current_freq0_reg").value = document.getElementById("current_freq0_reg").value + " " + freq0Reg;
-        document.getElementById("current_freq1_reg").value = document.getElementById("current_freq1_reg").value + " " + freq1Reg;
-        document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
-        document.getElementById("current_phase0_reg").value = document.getElementById("current_phase0_reg").value + " " + phase0Reg;
-        document.getElementById("current_phase1_reg").value = document.getElementById("current_phase1_reg").value + " " + phase1Reg;
-        document.getElementById("current_control_register").value = document.getElementById("current_control_register").value + " " + controlRegister;
-
-        // registers data (datatype is boolean)
-        d1 = (controlRegister & 0b0_000_000_000_000_010) === 0; // 'true' for bypass "SIN ROM" and 'false' for "SIN ROM"
-        d10 = (controlRegister & 0b0_000_010_000_000_000) === 0; // 'true' for "PHASE1 REG" and 'false' for "PHASE0 REG"
-        d11 = (controlRegister & 0b0_000_100_000_000_000) === 0; // 'true' for "FREQ1 REG" and 'false' for "FREQ0 REG"
+        d1 = ((controlRegister & 0b0_000_000_000_000_010) === 0) ? 0 : 1;
+        d10 = ((controlRegister & 0b0_000_010_000_000_000) === 0) ? 0 : 1;
+        d11 = ((controlRegister & 0b0_000_100_000_000_000) === 0) ? 0 : 1;
     }
 
     state = "running";
@@ -280,8 +268,16 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
     let handler = function () {
 
         if (state === "stopped" || tactsToRun === 0) {
+            state = "stopped";
             clearInterval(intervalID);
         }
+
+        document.getElementById("current_freq0_reg").value = document.getElementById("current_freq0_reg").value + " " + freq0Reg;
+        document.getElementById("current_freq1_reg").value = document.getElementById("current_freq1_reg").value + " " + freq1Reg;
+        document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
+        document.getElementById("current_phase0_reg").value = document.getElementById("current_phase0_reg").value + " " + phase0Reg;
+        document.getElementById("current_phase1_reg").value = document.getElementById("current_phase1_reg").value + " " + phase1Reg;
+        document.getElementById("current_control_register").value = document.getElementById("current_control_register").value + " " + controlRegister;
 
         let mux1 = d11 ? freq0Reg : freq1Reg;
         phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
@@ -299,14 +295,14 @@ function runGraph(newTactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_10_bit_dac").value = document.getElementById("current_10_bit_dac").value + " " + DAC10bit;
 
         if (totalExecutedTacts > 100) {
-            startRangeX += totalExecutedTacts - 100;
+            startXAxisRange += totalExecutedTacts - 100;
         }
         if (totalExecutedTacts > 100) {
-            endRangeX += totalExecutedTacts - 100;
+            endXAxisRange += totalExecutedTacts - 100;
         }
 
         let layoutUpdate = Object.assign({}, graphLayout);
-        layoutUpdate.xaxis.range = [startRangeX, endRangeX];
+        layoutUpdate.xaxis.range = [startXAxisRange, endXAxisRange];
         Plotly.animate("graphContainer", {layout: layoutUpdate}, {
             transition: {
                 duration: 1000 / baseFrequency,
@@ -330,13 +326,16 @@ function runNTactsGraph() {
     runGraph(tactsToRun);
 }
 
-function stopGraph() {
-
+function pauseGraph() {
     if (state === "stopped") {
         alert("График и так остановлен");
         return;
     }
-    state = "stopped";
+    if (state === "paused") {
+        alert("График и так поставлен на паузу");
+        return;
+    }
+    state = "paused";
 
 }
 
@@ -344,6 +343,10 @@ function continueGraph() {
 
     if (state === "running") {
         alert("График и так запущен");
+        return;
+    }
+    if (state === "stopped") {
+        alert("График не был запущен или уже завершился");
         return;
     }
     runGraph(undefined, true);
