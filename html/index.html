@@ -98,23 +98,23 @@
 <div class="lightgray">
     <p>Current values:</p>
     <br>
-    <p id="current_freq0_reg">FREQ0 REG:</p>
+    <p>FREQ0 REG: <span id="current_freq0_reg"></span></p>
     <br>
-    <p id="current_freq1_reg">FREQ1 REG:</p>
+    <p>FREQ1 REG: <span id="current_freq1_reg"></span></p>
     <br>
-    <p id="current_phase_accumulator">PHASE ACCUMULATOR:</p>
+    <p>PHASE ACCUMULATOR: <span id="current_phase_accumulator"></span></p>
     <br>
-    <p id="current_central_sum">CENTRAL SUM:</p>
+    <p>CENTRAL SUM: <span id="current_central_sum"></span></p>
     <br>
-    <p id="current_phase0_reg">PHASE0 REG:</p>
+    <p>PHASE0 REG: <span id="current_phase0_reg"></span></p>
     <br>
-    <p id="current_phase1_reg">PHASE1 REG:</p>
+    <p>PHASE1 REG: <span id="current_phase1_reg"></span></p>
     <br>
-    <p id="current_control_register">CONTROL REGISTER:</p>
+    <p>CONTROL REGISTER: <span id="current_control_register"></span></p>
     <br>
-    <p id="current_sin_rom">SIN ROM:</p>
+    <p>SIN ROM: <span id="current_sin_rom"></span></p>
     <br>
-    <p id="current_10_bit_dac">10-BIT DAC:</p>
+    <p>10-BIT DAC: <span id="current_10_bit_dac"></span></p>
 </div>
 
 <div>
@@ -146,6 +146,7 @@
         <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()">
         tacts
     </button>
+    <span>(Take values from inputs, put into microchip and start generation function graph)</span>
     <br>
     <br>
     <button onclick="pauseGraph()">Pause</button>

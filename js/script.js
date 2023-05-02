@@ -277,34 +277,33 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
             clearInterval(intervalID);
         }
 
-        document.getElementById("current_freq0_reg").value = document.getElementById("current_freq0_reg").value + " " + freq0Reg;
-        document.getElementById("current_freq1_reg").value = document.getElementById("current_freq1_reg").value + " " + freq1Reg;
-        document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
-        document.getElementById("current_phase0_reg").value = document.getElementById("current_phase0_reg").value + " " + phase0Reg;
-        document.getElementById("current_phase1_reg").value = document.getElementById("current_phase1_reg").value + " " + phase1Reg;
-        document.getElementById("current_control_register").value = document.getElementById("current_control_register").value + " " + controlRegister;
+        document.getElementById("current_freq0_reg").textContent = freq0Reg.toString(2).padStart(28, '0');
+        document.getElementById("current_freq1_reg").textContent = freq1Reg.toString(2).padStart(28, '0');
+        document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
+        document.getElementById("current_phase0_reg").textContent = phase0Reg.toString(2).padStart(12, '0');
+        document.getElementById("current_phase1_reg").textContent = phase1Reg.toString(2).padStart(12, '0');
+        document.getElementById("current_control_register").textContent = controlRegister.toString(2).padStart(16, '0');
 
         let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
         phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
-        document.getElementById("current_phase_accumulator").value = document.getElementById("current_phase_accumulator").value + " " + phaseAccumulator;
+        document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
         centralSum = phaseAccumulator + mux2;
-        document.getElementById("current_central_sum").value = document.getElementById("current_central_sum").value + " " + centralSum;
+        document.getElementById("current_central_sum").textContent = centralSum.toString(2);
         // angle in radians
         let sinRomInput = ((2 * Math.PI) / (Math.pow(2, 12) - 1)) * centralSum;
         let sinRom = Math.sin(sinRomInput + sinRomInput);
         sinRomOutput = (1 / (Math.pow(2, 10) - 1)) * sinRom;
-        document.getElementById("current_sin_rom").value = document.getElementById("current_sin_rom").value + " " + sinRomOutput;
+        document.getElementById("current_sin_rom").textContent = sinRomOutput.toString(2);
         let mux4 = d1 === 1 ? sinRomInput : sinRomOutput;
         DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
-        document.getElementById("current_10_bit_dac").value = document.getElementById("current_10_bit_dac").value + " " + DAC10bit;
+        document.getElementById("current_10_bit_dac").textContent = DAC10bit.toString(2).padStart(10, '0');
 
         if (totalExecutedTacts > 100) {
             startXAxisRange++;
             endXAxisRange++;
         }
 
-        let layoutUpdate = Object.assign({}, graphLayout);
         graphLayout.xaxis.range = [startXAxisRange, endXAxisRange];
         Plotly.animate("graphContainer", {layout: graphLayout}, {
             transition: {
