@@ -1,12 +1,7 @@
-Сохраняемые поля между тактами:
-• phase accumulator
-• sum
-• sin rom
-• 10 bit dac
+Сохраняемые поля между тактами: phase accumulator, sum, sin rom, 10 bit dac
 
 phase1 reg - 12 старших
-из phase accumulator выходит 12 старших
-потом после central sum остаются 12 старших
+из phase accumulator выходит 12 старших потом после central sum остаются 12 старших
 central sum держит только 12 старших бит
 10dac держит 10 старших
 

@@ -50,7 +50,6 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         return;
     }
 
-    // continueGenerate === true can only be after graph was started, so this fields must be already initialized
     if (continueGenerate === false) {
         freq0Reg = parseInt(document.getElementById("freq0_reg_input").value, 2);
         freq1Reg = parseInt(document.getElementById("freq1_reg_input").value, 2);
@@ -75,10 +74,12 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
 
         if (state === "stopped" || globalThis.tactsToRun === 0) {
             state = "stopped";
+            console.log("paused");
             clearInterval(intervalID);
         }
 
         if (state === "paused") {
+            console.log("paused");
             clearInterval(intervalID);
         }
 
@@ -89,9 +90,25 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_phase1_reg").textContent = phase1Reg.toString(2).padStart(12, '0');
         document.getElementById("current_control_register").textContent = controlRegister.toString(2).padStart(16, '0');
 
+        // Сохраняемые поля между тактами: phase accumulator, sum, sin rom, 10 bit dac
+        //
+        // phase1 reg - 12 старших
+        // из phase accumulator выходит 12 старших потом после central sum остаются 12 старших
+        // central sum держит только 12 старших бит
+        // 10dac держит 10 старших
+        //
+        // вход sin rom:
+        // 0 = sin(0)
+        // max = sin(2Pi)
+        //
+        // выход sin rom:
+        // 0 = 0
+        // 1048 - 1 = 1
+
         let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
         phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
-        document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
+        document.getElementById("current_phase_accumulator").textContent
+            = phaseAccumulator.toString(2).padStart(28, '0');
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
         centralSum = phaseAccumulator + mux2;
         document.getElementById("current_central_sum").textContent = centralSum.toString(2);
@@ -102,7 +119,8 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_sin_rom").textContent = sinRomOutput.toString(2);
         let mux4 = d1 === 1 ? sinRomInput : sinRomOutput;
         DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
-        document.getElementById("current_10_bit_dac").textContent = DAC10bit.toString(2).padStart(10, '0');
+        document.getElementById("current_10_bit_dac").textContent
+            = DAC10bit.toString(2).padStart(10, '0');
 
         if (totalExecutedTacts > 100) {
             startXAxisRange++;
@@ -117,6 +135,7 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
             }
         });
         Plotly.extendTraces("graphContainer", {x: [[totalExecutedTacts]], y: [[DAC10bit]]}, [0]);
+        console.log(DAC10bit);
 
         totalExecutedTacts++;
         globalThis.tactsToRun--;
@@ -334,6 +353,7 @@ function runNTactsGraph() {
 }
 
 function pauseGraph() {
+
     if (state === "stopped") {
         alert("График и так остановлен");
         return;
@@ -361,38 +381,38 @@ function continueGraph() {
 function checkInputFields() {
 
     let freq0Reg = document.getElementById("freq0_reg_input").value;
-    let freq1Reg = document.getElementById("freq1_reg_input");
+    let freq1Reg = document.getElementById("freq1_reg_input").value;
     let phaseAccumulator = document.getElementById("phase_accumulator_input").value;
     let phase0Reg = document.getElementById("phase0_reg_input").value;
     let phase1Reg = document.getElementById("phase1_reg_input").value;
     let controlRegister = document.getElementById("control_register_input").value;
     let baseFrequency = document.getElementById("base_frequency_input").value;
 
-    if (isBinaryString(freq0Reg) && freq0Reg.length !== 28) {
+    if (!isBinaryString(freq0Reg) || freq0Reg.length !== 28) {
         return false;
     }
 
-    if (isBinaryString(freq1Reg) && freq1Reg.length !== 28) {
+    if (!isBinaryString(freq1Reg) || freq1Reg.length !== 28) {
         return false;
     }
 
-    if (isBinaryString(phaseAccumulator) && phaseAccumulator.length !== 28) {
+    if (!isBinaryString(phaseAccumulator) || phaseAccumulator.length !== 28) {
         return false;
     }
 
-    if (isBinaryString(phase0Reg) && phase0Reg.length !== 12) {
+    if (!isBinaryString(phase0Reg) || phase0Reg.length !== 12) {
         return false;
     }
 
-    if (isBinaryString(phase1Reg) && phase1Reg.length !== 12) {
+    if (!isBinaryString(phase1Reg) || phase1Reg.length !== 12) {
         return false;
     }
 
-    if (isBinaryString(controlRegister) && controlRegister.length !== 16) {
+    if (!isBinaryString(controlRegister) || controlRegister.length !== 16) {
         return false;
     }
 
-    if (isBinaryString(baseFrequency) && baseFrequency.length > 9) {
+    if (!isBinaryString(baseFrequency) || baseFrequency.length > 9) {
         return false;
     }
 
