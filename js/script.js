@@ -28,10 +28,11 @@ let d10;
 let d11;
 
 let centralSum = 0;
-let sinRomOutput = 0;
+let sinRom = 0;
 let DAC10bit = 0;
 let startXAxisRange = 0;
 let endXAxisRange = 100;
+let output = 0;
 
 let state = "stopped"; // "running" || "paused" || "stopped"
 let totalExecutedTacts = 0;
@@ -40,13 +41,13 @@ let tactsToRun;
 function runGraph(tactsToRun = Infinity, continueGenerate = false) {
 
     if (state === "running") {
-        alert("График и так запущен");
+        alert("Графік вже працює");
         return;
     }
 
     let inputFieldsCorrect = checkInputFields();
     if (!inputFieldsCorrect) {
-        alert("Некоторые поля введены некорректно");
+        alert("Деякі поля введені некоректно");
         return;
     }
 
@@ -90,37 +91,29 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_phase1_reg").textContent = phase1Reg.toString(2).padStart(12, '0');
         document.getElementById("current_control_register").textContent = controlRegister.toString(2).padStart(16, '0');
 
-        // Сохраняемые поля между тактами: phase accumulator, sum, sin rom, 10 bit dac
-        //
-        // phase1 reg - 12 старших
-        // из phase accumulator выходит 12 старших потом после central sum остаются 12 старших
-        // central sum держит только 12 старших бит
-        // 10dac держит 10 старших
-        //
-        // вход sin rom:
-        // 0 = sin(0)
-        // max = sin(2Pi)
-        //
-        // выход sin rom:
-        // 0 = 0
-        // 1048 - 1 = 1
-
         let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
         phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
-        document.getElementById("current_phase_accumulator").textContent
-            = phaseAccumulator.toString(2).padStart(28, '0');
+        let phaseAccumulator12Bit = phaseAccumulator >> 16;
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
-        centralSum = phaseAccumulator + mux2;
+        centralSum = (centralSum + phaseAccumulator12Bit + mux2) & 0xfff;
+        function computeSin(inputValue) {
+            const minValue = 0; // Desired minimum value (corresponding to 0)
+            const maxValue = 4095; // Desired maximum value (corresponding to 2π)
+            let preparedValue = (inputValue / maxValue) * (2 * Math.PI);
+            let computedSine = Math.sin(preparedValue);
+            return ((computedSine - minValue) / (2 * Math.PI - minValue)) * (maxValue - minValue);
+        }
+        sinRom = (sinRom + centralSum) & 0xfff;
+        sinRom = computeSin(sinRom);
+        let mux4 = d1 === 1 ? centralSum : sinRom;
+        DAC10bit = (DAC10bit + mux4) >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
+        output = DAC10bit / 1023 * 1.75;
+        console.log(DAC10bit);
+
+        document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
         document.getElementById("current_central_sum").textContent = centralSum.toString(2);
-        // angle in radians
-        let sinRomInput = ((2 * Math.PI) / (Math.pow(2, 12) - 1)) * centralSum;
-        let sinRom = Math.sin(sinRomInput + sinRomInput);
-        sinRomOutput = (1 / (Math.pow(2, 10) - 1)) * sinRom;
-        document.getElementById("current_sin_rom").textContent = sinRomOutput.toString(2);
-        let mux4 = d1 === 1 ? sinRomInput : sinRomOutput;
-        DAC10bit = (DAC10bit + ((0.7 / (Math.pow(2, 10) - 1)) * mux4));
-        document.getElementById("current_10_bit_dac").textContent
-            = DAC10bit.toString(2).padStart(10, '0');
+        document.getElementById("current_sin_rom").textContent = sinRom.toString(2);
+        document.getElementById("current_10_bit_dac").textContent = DAC10bit.toString(2).padStart(10, '0');
 
         if (totalExecutedTacts > 100) {
             startXAxisRange++;
@@ -134,8 +127,7 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
                 easing: "linear"
             }
         });
-        Plotly.extendTraces("graphContainer", {x: [[totalExecutedTacts]], y: [[DAC10bit]]}, [0]);
-        console.log(DAC10bit);
+        Plotly.extendTraces("graphContainer", {x: [[totalExecutedTacts]], y: [[output]]}, [0]);
 
         totalExecutedTacts++;
         globalThis.tactsToRun--;
@@ -355,11 +347,11 @@ function runNTactsGraph() {
 function pauseGraph() {
 
     if (state === "stopped") {
-        alert("График и так остановлен");
+        alert("Графік все зупинен");
         return;
     }
     if (state === "paused") {
-        alert("График и так поставлен на паузу");
+        alert("Графік вже поставлен на паузу");
         return;
     }
     state = "paused";
@@ -368,11 +360,11 @@ function pauseGraph() {
 function continueGraph() {
 
     if (state === "running") {
-        alert("График и так запущен");
+        alert("Графік все працює");
         return;
     }
     if (state === "stopped") {
-        alert("График не был запущен или уже завершился");
+        alert("Графік не був запущений чи вже зупунився");
         return;
     }
     runGraph(undefined, true);
