@@ -92,8 +92,8 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_control_register").textContent = controlRegister.toString(2).padStart(16, '0');
 
         let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
-        phaseAccumulator = (mux1 + phaseAccumulator) & 0xfffffff;
-        let phaseAccumulator12Bit = phaseAccumulator >> 16;
+        phaseAccumulator = mux1 & 0xfffffff;
+        let phaseAccumulator12Bit = mux1 >> 16;
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
         centralSum = (centralSum + phaseAccumulator12Bit + mux2) & 0xfff;
         function computeSin(inputValue) {
@@ -103,12 +103,11 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
             let computedSine = Math.sin(preparedValue);
             return ((computedSine - minValue) / (2 * Math.PI - minValue)) * (maxValue - minValue);
         }
-        sinRom = (sinRom + centralSum) & 0xfff;
+        sinRom = centralSum & 0xfff;
         sinRom = computeSin(sinRom);
         let mux4 = d1 === 1 ? centralSum : sinRom;
-        DAC10bit = (DAC10bit + mux4) >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
+        DAC10bit = mux4 >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
         output = DAC10bit / 1023 * 1.75;
-        console.log(DAC10bit);
 
         document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
         document.getElementById("current_central_sum").textContent = centralSum.toString(2);
