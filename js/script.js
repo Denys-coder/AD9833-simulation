@@ -15,8 +15,8 @@ let graphLayout = {
         title: "VOUT",
     },
     dragmode: 'pan',
-    plot_bgcolor: '#d2f8d2',
-    paper_bgcolor: "#d2f8d2",
+    plot_bgcolor: '#d1f4ff',
+    paper_bgcolor: "#d1f4ff",
 };
 let graphConfig = {
     displayModeBar: false,
