@@ -26,7 +26,7 @@
 }
 
 .toggle-switch label {
-    /*color: black;*/
+    color: black;
     opacity: 0.33;
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
@@ -42,7 +42,7 @@
 
 .toggle-switch .toggle-inside {
     border-radius: 50%;
-    /*background: darkgreen;*/
+    background: darkgreen;
     position: absolute;
     transition: all 0.3s ease-in-out;
 }
@@ -71,7 +71,7 @@
 }
 
 .switch-vertical .toggle-outside {
-    /*background: lightgreen;*/
+    background: lightgreen;
     position: absolute;
     width: 23px;
     height: 100%;

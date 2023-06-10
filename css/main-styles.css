@@ -7,7 +7,7 @@
 }
 
 .controlPlane {
-    background-color: #d2f8d2;
+    background-color: #d1f4ff;
     padding: 18px;
     overflow: auto;
 }
@@ -22,7 +22,7 @@
 }
 
 .currentState {
-    background-color: #d1f4ff;
+    background-color: #d2f8d2;
     padding: 18px;
     overflow: auto;
 }
@@ -41,12 +41,12 @@
 }
 
 .controlButtons {
-    background-color: #d2f8d2;
+    background-color: #d1f4ff;
     padding: 18px;
 }
 
 .graphContainer {
-    /*background-color: lightgray;*/
+
 }
 
 input {
@@ -60,17 +60,29 @@ button {
 }
 
 fieldset {
-    /*border: 2px solid darkgreen;*/
+    border: 2px solid darkgreen;
     /*background: white;*/
     border-radius: 5px;
     padding: 15px;
 }
 
 fieldset legend {
-    /*background: darkgreen;*/
-    /*color: white;*/
+    background: darkgreen;
+    color: white;
     padding: 5px 10px;
     border-radius: 5px;
     margin-left: 20px;
+}
+
+.greenBackground {
+    background-color: lightgreen;
+}
+
+.yellowBackground {
+    background-color: yellow;
+}
+
+.blueBackground {
+    background-color: lightblue;
 }
 

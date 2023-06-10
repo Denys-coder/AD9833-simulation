@@ -158,15 +158,15 @@
 <!-- Старый график никогда не удаляется. -->
 
 <div class="controlButtons">
-    <button onclick="runGraph()" id="generate_graph">Run</button>
-    <button onclick="runGraph(1)">Run 1 tact</button>
-    <button onclick="runGraph(10)">Run 10 tacts</button>
-    <button onclick="runGraph(20)">Run 20 tacts</button>
-    <button onclick="runGraph(30)">Run 30 tacts</button>
-    <button onclick="runNTactsGraph()">Run tacts:</button>
-    <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()">
-    <button onclick="pauseGraph()">Pause</button>
-    <button onclick="continueGraph()">Continue</button>
+    <button onclick="runGraph()" id="generate_graph" class="greenBackground">Run</button>
+    <button onclick="runGraph(1)" class="greenBackground">Run 1 tact</button>
+    <button onclick="runGraph(10)" class="greenBackground">Run 10 tacts</button>
+    <button onclick="runGraph(20)" class="greenBackground">Run 20 tacts</button>
+    <button onclick="runGraph(30)" class="greenBackground">Run 30 tacts</button>
+    <button onclick="runNTactsGraph()" class="greenBackground">Run tacts:</button>
+    <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()" class="greenBackground">
+    <button onclick="pauseGraph()" class="yellowBackground">Pause</button>
+    <button onclick="continueGraph()" class="blueBackground">Continue</button>
 </div>
 
 <div class="graphContainer" id="graphContainer"></div>
