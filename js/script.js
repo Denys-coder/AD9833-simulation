@@ -1,7 +1,10 @@
 let graphData = [{
     x: [],
     y: [],
-    mode: "lines"
+    mode: "lines",
+    line: {
+        // color: 'darkgreen',
+    }
 }];
 let graphLayout = {
     xaxis: {
@@ -12,8 +15,14 @@ let graphLayout = {
         title: "VOUT",
     },
     dragmode: 'pan',
+    // plot_bgcolor: '#d2f8d2',
+    // paper_bgcolor: "#d2f8d2",
 };
-Plotly.newPlot("graphContainer", graphData, graphLayout, {displayModeBar: false});
+let graphConfig = {
+    displayModeBar: false,
+
+}
+Plotly.newPlot("graphContainer", graphData, graphLayout, graphConfig);
 
 let freq0Reg;
 let freq1Reg;
@@ -183,6 +192,7 @@ function updateRegisterInput(freq0Reg, freq1Reg, phaseAccumulator, phase0Reg, ph
 function unselectPreset() {
 
     document.getElementById('preset_select').selectedIndex = 0;
+    document.getElementById("functional_block_diagram").src = '../images/schema-pictures/no-path-schema.png';
 }
 
 function mux1Changed() {

@@ -1,0 +1,77 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    background-color: #d2f8d2;
+}
+
+.controlPlane {
+    /*background-color: lightcyan;*/
+    padding: 18px;
+    overflow: auto;
+}
+
+.controlPlane_leftPart {
+    float: left;
+    margin-right: 50px;
+}
+
+.controlPlane_rightPart {
+
+}
+
+.currentState {
+    /*background-color: lightgrey;*/
+    padding: 18px;
+    overflow: auto;
+}
+
+.currentState_leftPart {
+    float: left;
+    width: 550px;
+}
+
+.currentState_rightPart {
+
+}
+
+.functional_block_diagram {
+    object-fit: scale-down;
+}
+
+.controlButtons {
+    /*background-color: lightcyan;*/
+    padding: 18px;
+}
+
+.graphContainer {
+    /*background-color: lightgray;*/
+}
+
+input {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+button {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+fieldset {
+    /*border: 2px solid darkgreen;*/
+    /*background: white;*/
+    border-radius: 5px;
+    padding: 15px;
+}
+
+fieldset legend {
+    /*background: darkgreen;*/
+    /*color: white;*/
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+

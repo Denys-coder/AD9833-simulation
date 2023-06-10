@@ -3,123 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <title>AD9833 simulation</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/main-styles.css">
+    <link rel="stylesheet" href="../css/vertical-toggle-button.css">
+    <link rel="stylesheet" href="../css/presetSelect.css">
     <link rel="icon" type="image/png" href="../images/favicon.png">
 </head>
 <body>
 
-<div class="lightblue">
-    <label for="preset_select">Preset:</label>
-    <select id="preset_select" onchange="changePreset()">
-        <option selected disabled> -- select preset --</option>
-        <option value="preset 1">preset 1</option>
-        <option value="preset 2">preset 2</option>
-        <option value="preset 3">preset 3</option>
-    </select>
-    <br>
-    <br>
-
-    <label for="freq0_reg_input">FREQ0 REG (28 bit)</label>
-    <br>
-    <input type="text" id="freq0_reg_input" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="freq1_reg_input">FREQ1 REG (28 bit)</label>
-    <br>
-    <input type="text" id="freq1_reg_input" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="phase_accumulator_input">PHASE ACCUMULATOR (28-BIT)</label>
-    <br>
-    <input type="text" id="phase_accumulator_input" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="phase0_reg_input">PHASE0 REG (12 bit)</label>
-    <br>
-    <input type="text" id="phase0_reg_input" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="phase1_reg_input">PHASE1 REG (12 bit)</label>
-    <br>
-    <input type="text" id="phase1_reg_input" size="40" onchange="unselectPreset()">
-    <br>
-    <br>
-
-    <label for="control_register_input">CONTROL REGISTER (16 bit)</label>
-    <br>
-    <input type="text" id="control_register_input" size="40" onchange="unselectPreset(); updateMuxes();">
-    <br>
-    <br>
-
-    <fieldset>
-        <legend>mux1</legend>
-        <input type="radio" id="mux1_first" name="mux1" value="first" onchange="mux1Changed()">
-        <label for="mux1_first">first</label>
+<div class="controlPlane">
+    <div class="controlPlane_leftPart">
+        <label for="preset_select">Preset:</label>
+        <select id="preset_select" onchange="changePreset()">
+            <option value="" hidden> -- select preset --</option>
+            <option value="preset 1">preset 1</option>
+            <option value="preset 2">preset 2</option>
+            <option value="preset 3">preset 3</option>
+        </select>
         <br>
-        <input type="radio" id="mux1_second" name="mux1" value="second" onchange="mux1Changed()">
-        <label for="mux1_second">second</label>
-    </fieldset>
-
-    <fieldset>
-        <legend>mux2</legend>
-        <input type="radio" id="mux2_first" name="mux2" value="first" onchange="mux2Changed()">
-        <label for="mux2_first">first</label>
         <br>
-        <input type="radio" id="mux2_second" name="mux2" value="second" onchange="mux2Changed()">
-        <label for="mux2_second">second</label>
-    </fieldset>
 
-    <fieldset>
-        <legend>mux4</legend>
-        <input type="radio" id="mux4_first" name="mux4" value="first" onchange="mux4Changed()">
-        <label for="mux4_first">first</label>
+        <label for="freq0_reg_input">FREQ0 REG (28 bit)</label>
         <br>
-        <input type="radio" id="mux4_second" name="mux4" value="second" onchange="mux4Changed()">
-        <label for="mux4_second">second</label>
-    </fieldset>
-    <br>
+        <input type="text" id="freq0_reg_input" size="40" onchange="unselectPreset()">
+        <br>
+        <br>
 
-    <label for="base_frequency_input">base frequency</label>
-    <br>
-    <input type="text" id="base_frequency_input" value="10">
+        <label for="freq1_reg_input">FREQ1 REG (28 bit)</label>
+        <br>
+        <input type="text" id="freq1_reg_input" size="40" onchange="unselectPreset()">
+        <br>
+        <br>
 
-    <select id="base_frequency_unit_select">
-        <option value="1">Hz</option>
-        <option value="1_000">KHz</option>
-        <option value="1_000_000">MHz</option>
-    </select>
-    <br>
+        <label for="phase_accumulator_input">PHASE ACCUMULATOR (28-BIT)</label>
+        <br>
+        <input type="text" id="phase_accumulator_input" size="40" onchange="unselectPreset()">
+        <br>
+        <br>
+
+        <label for="phase0_reg_input">PHASE0 REG (12 bit)</label>
+        <br>
+        <input type="text" id="phase0_reg_input" size="40" onchange="unselectPreset()">
+        <br>
+        <br>
+
+        <label for="phase1_reg_input">PHASE1 REG (12 bit)</label>
+        <br>
+        <input type="text" id="phase1_reg_input" size="40" onchange="unselectPreset()">
+        <br>
+        <br>
+
+        <label for="control_register_input">CONTROL REGISTER (16 bit)</label>
+        <br>
+        <input type="text" id="control_register_input" size="40" onchange="unselectPreset(); updateMuxes();">
+    </div>
+    <div class="controlPlane_rightPart">
+
+        <fieldset>
+            <legend>mux1</legend>
+            <div class="toggle-switch-container">
+                <div class="toggle-switch switch-vertical">
+                    <input type="radio" id="mux1_first" name="mux1" value="first" onchange="mux1Changed()"/>
+                    <label for="mux1_first">first</label>
+                    <input type="radio" id="mux1_second" name="mux1" value="second" onchange="mux1Changed()"/>
+                    <label for="mux1_second">second</label>
+                    <span class="toggle-outside">
+                  <span class="toggle-inside"></span>
+                </span>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>mux2</legend>
+            <div class="toggle-switch-container">
+                <div class="toggle-switch switch-vertical">
+                    <input type="radio" id="mux2_first" name="mux2" value="first" onchange="mux2Changed()"/>
+                    <label for="mux2_first">first</label>
+                    <input type="radio" id="mux2_second" name="mux2" value="second" onchange="mux2Changed()"/>
+                    <label for="mux2_second">second</label>
+                    <span class="toggle-outside">
+                  <span class="toggle-inside"></span>
+                </span>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>mux4</legend>
+            <div class="toggle-switch-container">
+                <div class="toggle-switch switch-vertical">
+                    <input type="radio" id="mux4_first" name="mux4" value="first" onchange="mux4Changed()"/>
+                    <label for="mux4_first">first</label>
+                    <input type="radio" id="mux4_second" name="mux4" value="second" onchange="mux4Changed()"/>
+                    <label for="mux4_second">second</label>
+                    <span class="toggle-outside">
+                  <span class="toggle-inside"></span>
+                </span>
+                </div>
+            </div>
+        </fieldset>
+        <br>
+
+        <label for="base_frequency_input">base frequency</label>
+        <br>
+        <input type="text" id="base_frequency_input" value="10">
+
+        <select id="base_frequency_unit_select">
+            <option value="1">Hz</option>
+            <option value="1_000">KHz</option>
+            <option value="1_000_000">MHz</option>
+        </select>
+    </div>
 </div>
 
-<div class="lightgray">
-    <p>Current values:</p>
-    <br>
-    <p>FREQ0 REG: <span id="current_freq0_reg"></span></p>
-    <br>
-    <p>FREQ1 REG: <span id="current_freq1_reg"></span></p>
-    <br>
-    <p>PHASE ACCUMULATOR: <span id="current_phase_accumulator"></span></p>
-    <br>
-    <p>CENTRAL SUM: <span id="current_central_sum"></span></p>
-    <br>
-    <p>PHASE0 REG: <span id="current_phase0_reg"></span></p>
-    <br>
-    <p>PHASE1 REG: <span id="current_phase1_reg"></span></p>
-    <br>
-    <p>CONTROL REGISTER: <span id="current_control_register"></span></p>
-    <br>
-    <p>SIN ROM: <span id="current_sin_rom"></span></p>
-    <br>
-    <p>10-BIT DAC: <span id="current_10_bit_dac"></span></p>
-</div>
-
-<div>
-    <img src="../images/schema-pictures/no-path-schema.png" id="functional_block_diagram" width="848" height="491"
-         alt="functional block diagram" class="functional_block_diagram">
+<div class="currentState">
+    <div class="currentState_leftPart">
+        <p>Current values:</p>
+        <br>
+        <p>FREQ0 REG: <span id="current_freq0_reg"></span></p>
+        <br>
+        <p>FREQ1 REG: <span id="current_freq1_reg"></span></p>
+        <br>
+        <p>PHASE ACCUMULATOR: <span id="current_phase_accumulator"></span></p>
+        <br>
+        <p>CENTRAL SUM: <span id="current_central_sum"></span></p>
+        <br>
+        <p>PHASE0 REG: <span id="current_phase0_reg"></span></p>
+        <br>
+        <p>PHASE1 REG: <span id="current_phase1_reg"></span></p>
+        <br>
+        <p>CONTROL REGISTER: <span id="current_control_register"></span></p>
+        <br>
+        <p>SIN ROM: <span id="current_sin_rom"></span></p>
+        <br>
+        <p>10-BIT DAC: <span id="current_10_bit_dac"></span></p>
+    </div>
+    <div class="currentState_rightPart">
+        <img src="../images/schema-pictures/no-path-schema.png" id="functional_block_diagram" width="594" height="344"
+             alt="functional block diagram" class="functional_block_diagram">
+    </div>
 </div>
 
 <!-- Кнопка "Run" / "Run n tacts" берёт значения из полей для ввода, обновляет значения
@@ -135,23 +157,15 @@
 
 <!-- Старый график никогда не удаляется. -->
 
-<div class="lightgray">
+<div class="controlButtons">
     <button onclick="runGraph()" id="generate_graph">Run</button>
     <button onclick="runGraph(1)">Run 1 tact</button>
     <button onclick="runGraph(10)">Run 10 tacts</button>
     <button onclick="runGraph(20)">Run 20 tacts</button>
     <button onclick="runGraph(30)">Run 30 tacts</button>
-    <button onclick="runNTactsGraph()">
-        Run
-        <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()">
-        tacts
-    </button>
-    <span>(Take values from inputs, put into microchip and start generation function graph)</span>
-    <br>
-    <br>
+    <button onclick="runNTactsGraph()">Run tacts:</button>
+    <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()">
     <button onclick="pauseGraph()">Pause</button>
-    <br>
-    <br>
     <button onclick="continueGraph()">Continue</button>
 </div>
 
