@@ -4,11 +4,10 @@
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    background-color: #ddf8d2;
 }
 
 .controlPlane {
-    /*background-color: lightcyan;*/
+    background-color: #d2f8d2;
     padding: 18px;
     overflow: auto;
 }
@@ -23,7 +22,7 @@
 }
 
 .currentState {
-    /*background-color: lightgrey;*/
+    background-color: #d1f4ff;
     padding: 18px;
     overflow: auto;
 }
@@ -42,7 +41,7 @@
 }
 
 .controlButtons {
-    /*background-color: lightcyan;*/
+    background-color: #d2f8d2;
     padding: 18px;
 }
 

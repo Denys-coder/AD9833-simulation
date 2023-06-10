@@ -3,7 +3,7 @@ let graphData = [{
     y: [],
     mode: "lines",
     line: {
-        // color: 'darkgreen',
+        color: 'darkgreen',
     }
 }];
 let graphLayout = {
@@ -15,8 +15,8 @@ let graphLayout = {
         title: "VOUT",
     },
     dragmode: 'pan',
-    // plot_bgcolor: '#d2f8d2',
-    // paper_bgcolor: "#d2f8d2",
+    plot_bgcolor: '#d2f8d2',
+    paper_bgcolor: "#d2f8d2",
 };
 let graphConfig = {
     displayModeBar: false,
