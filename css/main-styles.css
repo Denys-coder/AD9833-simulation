@@ -86,3 +86,7 @@ fieldset legend {
     background-color: lightblue;
 }
 
+select {
+    border-radius: 5px;
+    padding: 5px;
+}

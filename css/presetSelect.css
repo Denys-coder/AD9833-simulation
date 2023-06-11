@@ -1,9 +1,0 @@
-select {
-    border-radius: 5px;
-    padding: 5px;
-}
-
-select option {
-    /*background-color: lightgrey;*/
-    margin: 2px;
-}
