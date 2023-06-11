@@ -499,11 +499,3 @@ function setControlRegister(newValue) {
         inputs[i].value = newValue[i];
     }
 }
-
-// div id's
-// freq0RegDiv
-// freq1RegDiv
-// phaseAccumulator
-// phase0Reg
-// phase1Reg
-// controlRegister
