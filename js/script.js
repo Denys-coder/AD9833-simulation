@@ -20,7 +20,6 @@ let graphLayout = {
 };
 let graphConfig = {
     displayModeBar: false,
-
 }
 Plotly.newPlot("graphContainer", graphData, graphLayout, graphConfig);
 
@@ -54,19 +53,18 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         return;
     }
 
-    let inputFieldsCorrect = checkInputFields();
-    if (!inputFieldsCorrect) {
-        alert("Деякі поля введені некоректно");
+    if (!inputFieldsCorrect()) {
+        alert("Деякі поля не заповнені або заповнені некоректно");
         return;
     }
 
     if (continueGenerate === false) {
-        freq0Reg = parseInt(document.getElementById("freq0_reg_input").value, 2);
-        freq1Reg = parseInt(document.getElementById("freq1_reg_input").value, 2);
-        phaseAccumulator = parseInt(document.getElementById("phase_accumulator_input").value, 2);
-        phase0Reg = parseInt(document.getElementById("phase0_reg_input").value, 2);
-        phase1Reg = parseInt(document.getElementById("phase1_reg_input").value, 2);
-        controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
+        freq0Reg = parseInt(getFreq0Reg(), 2);
+        freq1Reg = parseInt(getFreq1Reg(), 2);
+        phaseAccumulator = parseInt(getPhaseAccumulator(), 2);
+        phase0Reg = parseInt(getPhase0Reg(), 2);
+        phase1Reg = parseInt(getPhase1Reg(), 2);
+        controlRegister = parseInt(getControlRegister(), 2);
         baseFrequency = 1 / (parseInt(document.getElementById("base_frequency_input").value) * parseInt(document.getElementById("base_frequency_unit_select").value));
 
         d1 = ((controlRegister & 0b0_000_000_000_000_010) === 0) ? 0 : 1;
@@ -84,12 +82,10 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
 
         if (state === "stopped" || globalThis.tactsToRun === 0) {
             state = "stopped";
-            console.log("paused");
             clearInterval(intervalID);
         }
 
         if (state === "paused") {
-            console.log("paused");
             clearInterval(intervalID);
         }
 
@@ -151,42 +147,32 @@ function changePreset() {
 
     switch (selectedPreset) {
         case 'preset 1':
-            updateRegisterInput('0110011000111001101001110001',
-                '0110011000111001101001110001',
-                '0110011000111001101001110001',
-                '011001100011',
-                '011001100011',
-                '0110011000111001');
+            setFreq0Reg('0110011000111001101001110001');
+            setFreq1Reg('0110011000111001101001110001');
+            setPhaseAccumulator('0110011000111001101001110001');
+            setPhase0Reg('011001100011');
+            setPhase1Reg('011001100011');
+            setControlRegister('0110011000111001');
             break;
         case 'preset 2':
-            updateRegisterInput('0110011011111101001001110001',
-                '0111010110110110111000110011',
-                '0110001011101101101101010001',
-                '001011101010',
-                '001101011010',
-                '0011010100100010');
+            setFreq0Reg('0110011011111101001001110001');
+            setFreq1Reg('0111010110110110111000110011');
+            setPhaseAccumulator('0110001011101101101101010001');
+            setPhase0Reg('001011101010');
+            setPhase1Reg('001101011010');
+            setControlRegister('0011010100100010');
             break;
         case 'preset 3':
-            updateRegisterInput('0110110110111011011111110101',
-                '0101011011101101001000100101',
-                '0110011001001011111001010101',
-                '011100001101',
-                '010001001111',
-                '0111010110101011');
+            setFreq0Reg('0110110110111011011111110101');
+            setFreq1Reg('0101011011101101001000100101');
+            setPhaseAccumulator('0110011001001011111001010101');
+            setPhase0Reg('011100001101');
+            setPhase1Reg('010001001111');
+            setControlRegister('0111010110101011');
             break;
     }
 
     updateMuxes();
-}
-
-function updateRegisterInput(freq0Reg, freq1Reg, phaseAccumulator, phase0Reg, phase1Reg, controlRegister) {
-
-    document.getElementById('freq0_reg_input').value = freq0Reg;
-    document.getElementById('freq1_reg_input').value = freq1Reg;
-    document.getElementById('phase_accumulator_input').value = phaseAccumulator;
-    document.getElementById('phase0_reg_input').value = phase0Reg;
-    document.getElementById('phase1_reg_input').value = phase1Reg;
-    document.getElementById('control_register_input').value = controlRegister;
 }
 
 function unselectPreset() {
@@ -201,22 +187,17 @@ function mux1Changed() {
 
     updateSchema();
 
-    const controlRegisterInput = document.getElementById("control_register_input");
-    if (controlRegisterInput.value.length < 5) {
-        return;
-    }
-
     const firstOption = document.getElementById("mux1_first");
     const secondOption = document.getElementById("mux1_second");
 
     // mux1_first: 5 символ - 0
     if (firstOption.checked) {
         // symbol with index 4 should be '0'
-        controlRegisterInput.value = controlRegisterInput.value.substring(0, 4) + '0' + controlRegisterInput.value.substring(5);
+        document.getElementById("controlRegisterBit4").value = "0";
     }
     if (secondOption.checked) {
         // symbol with index 4 should be '1'
-        controlRegisterInput.value = controlRegisterInput.value.substring(0, 4) + '1' + controlRegisterInput.value.substring(5);
+        document.getElementById("controlRegisterBit4").value = "1";
     }
 }
 
@@ -226,10 +207,6 @@ function mux2Changed() {
 
     updateSchema();
 
-    const controlRegisterInput = document.getElementById("control_register_input");
-    if (controlRegisterInput.value.length < 6) {
-        return;
-    }
 
     // mux2_first: 6 символ - 0
     const first = document.getElementById("mux2_first");
@@ -237,11 +214,11 @@ function mux2Changed() {
 
     if (first.checked) {
         // symbol with index 5 should be '0'
-        controlRegisterInput.value = controlRegisterInput.value.substring(0, 5) + '0' + controlRegisterInput.value.substring(6);
+        document.getElementById("controlRegisterBit5").value = "0";
     }
     if (second.checked) {
         // symbol with index 5 should be '1'
-        controlRegisterInput.value = controlRegisterInput.value.substring(0, 5) + '1' + controlRegisterInput.value.substring(6);
+        document.getElementById("controlRegisterBit5").value = "1";
     }
 }
 
@@ -251,28 +228,23 @@ function mux4Changed() {
 
     updateSchema();
 
-    const controlRegisterInput = document.getElementById("control_register_input");
-    if (controlRegisterInput.value.length < 15) {
-        return;
-    }
-
     // mux4_first - 15 символ - 1
     const first = document.getElementById("mux4_first");
     const second = document.getElementById("mux4_second");
 
     if (first.checked) {
         // symbol with index 14 should be '1'
-        controlRegisterInput.value = controlRegisterInput.value.substring(0, 14) + '1' + controlRegisterInput.value.substring(15);
+        document.getElementById("controlRegisterBit14").value = "1";
     }
     if (second.checked) {
         // symbol with index 14 should be '0'
-        controlRegisterInput.value = controlRegisterInput.value.substring(0, 14) + '0' + controlRegisterInput.value.substring(15);
+        document.getElementById("controlRegisterBit14").value = "0";
     }
 }
 
 function updateMuxes() {
 
-    const controlRegister = parseInt(document.getElementById("control_register_input").value, 2);
+    const controlRegister = parseInt(getControlRegister(), 2);
 
     // registers data (datatype is boolean)
     let d1 = ((controlRegister & 0b0_000_000_000_000_010) === 0) ? 0 : 1;
@@ -356,7 +328,7 @@ function runNTactsGraph() {
 function pauseGraph() {
 
     if (state === "stopped") {
-        alert("Графік все зупинен");
+        alert("Графік вже зупинен");
         return;
     }
     if (state === "paused") {
@@ -379,48 +351,159 @@ function continueGraph() {
     runGraph(undefined, true);
 }
 
-function checkInputFields() {
+function inputFieldsCorrect() {
 
-    let freq0Reg = document.getElementById("freq0_reg_input").value;
-    let freq1Reg = document.getElementById("freq1_reg_input").value;
-    let phaseAccumulator = document.getElementById("phase_accumulator_input").value;
-    let phase0Reg = document.getElementById("phase0_reg_input").value;
-    let phase1Reg = document.getElementById("phase1_reg_input").value;
-    let controlRegister = document.getElementById("control_register_input").value;
+    let freq0Reg = getFreq0Reg();
+    let freq1Reg = getFreq1Reg();
+    let phaseAccumulator = getPhaseAccumulator();
+    let phase0Reg = getPhase0Reg();
+    let phase1Reg = getPhase1Reg();
+    let controlRegister = getControlRegister();
     let baseFrequency = document.getElementById("base_frequency_input").value;
 
-    if (!isBinaryString(freq0Reg) || freq0Reg.length !== 28) {
+    if (freq0Reg.length !== 28) {
         return false;
     }
 
-    if (!isBinaryString(freq1Reg) || freq1Reg.length !== 28) {
+    if (freq1Reg.length !== 28) {
         return false;
     }
 
-    if (!isBinaryString(phaseAccumulator) || phaseAccumulator.length !== 28) {
+    if (phaseAccumulator.length !== 28) {
         return false;
     }
 
-    if (!isBinaryString(phase0Reg) || phase0Reg.length !== 12) {
+    if (phase0Reg.length !== 12) {
         return false;
     }
 
-    if (!isBinaryString(phase1Reg) || phase1Reg.length !== 12) {
+    if (phase1Reg.length !== 12) {
         return false;
     }
 
-    if (!isBinaryString(controlRegister) || controlRegister.length !== 16) {
+    if (controlRegister.length !== 16) {
         return false;
     }
 
-    if (!isBinaryString(baseFrequency) || baseFrequency.length > 9) {
+    if (baseFrequency.length > 9) {
         return false;
     }
 
     return true;
 }
 
-function isBinaryString(str) {
-
-    return /^[01]+$/.test(str);
+function getFreq0Reg() {
+    let freq0RegDiv = document.getElementById("freq0RegDiv");
+    let inputs = freq0RegDiv.getElementsByTagName("input");
+    let concatenatedValue = "";
+    for (let i = 0; i < inputs.length; i++) {
+        concatenatedValue += inputs[i].value;
+    }
+    return concatenatedValue;
 }
+
+function setFreq0Reg(newValue) {
+    let freq0RegDiv = document.getElementById("freq0RegDiv");
+    let inputs = freq0RegDiv.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = newValue[i];
+    }
+}
+
+function getFreq1Reg() {
+    let freq1RegDiv = document.getElementById("freq1RegDiv");
+    let inputs = freq1RegDiv.getElementsByTagName("input");
+    let concatenatedValue = "";
+    for (let i = 0; i < inputs.length; i++) {
+        concatenatedValue += inputs[i].value;
+    }
+    return concatenatedValue;
+}
+
+function setFreq1Reg(newValue) {
+    let freq1RegDiv = document.getElementById("freq1RegDiv");
+    let inputs = freq1RegDiv.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = newValue[i];
+    }
+}
+
+function getPhaseAccumulator() {
+    let phaseAccumulatorDiv = document.getElementById("phaseAccumulatorDiv");
+    let inputs = phaseAccumulatorDiv.getElementsByTagName("input");
+    let concatenatedValue = "";
+    for (let i = 0; i < inputs.length; i++) {
+        concatenatedValue += inputs[i].value;
+    }
+    return concatenatedValue;
+}
+
+function setPhaseAccumulator(newValue) {
+    let phaseAccumulatorDiv = document.getElementById("phaseAccumulatorDiv");
+    let inputs = phaseAccumulatorDiv.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = newValue[i];
+    }
+}
+
+function getPhase0Reg() {
+    let phase0RegDiv = document.getElementById("phase0RegDiv");
+    let inputs = phase0RegDiv.getElementsByTagName("input");
+    let concatenatedValue = "";
+    for (let i = 0; i < inputs.length; i++) {
+        concatenatedValue += inputs[i].value;
+    }
+    return concatenatedValue;
+}
+
+function setPhase0Reg(newValue) {
+    let phase0RegDiv = document.getElementById("phase0RegDiv");
+    let inputs = phase0RegDiv.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = newValue[i];
+    }
+}
+
+function getPhase1Reg() {
+    let phase1RegDiv = document.getElementById("phase1RegDiv");
+    let inputs = phase1RegDiv.getElementsByTagName("input");
+    let concatenatedValue = "";
+    for (let i = 0; i < inputs.length; i++) {
+        concatenatedValue += inputs[i].value;
+    }
+    return concatenatedValue;
+}
+
+function setPhase1Reg(newValue) {
+    let phase1RegDiv = document.getElementById("phase1RegDiv");
+    let inputs = phase1RegDiv.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = newValue[i];
+    }
+}
+
+function getControlRegister() {
+    let controlRegisterDiv = document.getElementById("controlRegisterDiv");
+    let inputs = controlRegisterDiv.getElementsByTagName("input");
+    let concatenatedValue = "";
+    for (let i = 0; i < inputs.length; i++) {
+        concatenatedValue += inputs[i].value;
+    }
+    return concatenatedValue;
+}
+
+function setControlRegister(newValue) {
+    let controlRegisterDiv = document.getElementById("controlRegisterDiv");
+    let inputs = controlRegisterDiv.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = newValue[i];
+    }
+}
+
+// div id's
+// freq0RegDiv
+// freq1RegDiv
+// phaseAccumulator
+// phase0Reg
+// phase1Reg
+// controlRegister

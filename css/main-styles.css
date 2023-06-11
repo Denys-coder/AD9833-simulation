@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    padding: 0;
+    /*padding: 0;*/
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
@@ -49,7 +49,7 @@
 
 }
 
-input {
+div.controlPlane_rightPart input {
     padding: 5px;
     border-radius: 5px;
 }
@@ -59,14 +59,13 @@ button {
     border-radius: 5px;
 }
 
-fieldset {
+div.controlPlane_rightPart fieldset {
     border: 2px solid darkgreen;
-    /*background: white;*/
     border-radius: 5px;
     padding: 15px;
 }
 
-fieldset legend {
+div.controlPlane_rightPart fieldset legend {
     background: darkgreen;
     color: white;
     padding: 5px 10px;
@@ -89,4 +88,65 @@ fieldset legend {
 select {
     border-radius: 5px;
     padding: 5px;
+}
+
+.registerFieldset {
+    display: inline;
+    border-radius: 7px;
+    margin: 0;
+    padding: 0;
+    font-size: 5px;
+    background-color: white;
+}
+
+.registerLegend {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.registerInput {
+    width: 25px;
+    height: 25px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    border-radius: 7px;
+}
+
+.commonInput {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.baseFrequencyDiv {
+    margin-top: 10px;
+}
+
+.margin1 {
+    margin-right: 92px;
+}
+
+.margin2 {
+    margin-right: 92px;
+}
+
+.margin3 {
+    margin-right: 0;
+}
+
+.margin4 {
+    margin-right: 81px;
+}
+
+.margin5 {
+    margin-right: 81px;
+}
+
+.margin6 {
+    margin-right: 22px;
 }

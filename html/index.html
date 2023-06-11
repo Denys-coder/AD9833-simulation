@@ -10,6 +10,7 @@
 <body>
 
 <div class="controlPlane">
+
     <div class="controlPlane_leftPart">
         <label for="preset_select">Preset:</label>
         <select id="preset_select" onchange="changePreset()">
@@ -21,39 +22,536 @@
         <br>
         <br>
 
-        <label for="freq0_reg_input">FREQ0 REG (28 bit)</label>
-        <br>
-        <input type="text" id="freq0_reg_input" size="40" onchange="unselectPreset()">
-        <br>
-        <br>
+        <div class="single-cell-input-fields" id="freq0RegDiv">
+            <label class="margin1">FREQ0 REG (28 bit):</label>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">0</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">1</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">2</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">3</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">4</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">5</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">6</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">7</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">8</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">9</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">10</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">11</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">12</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">13</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">14</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">15</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">16</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">17</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">18</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">19</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">20</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">21</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">22</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">23</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">24</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">25</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">26</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">27</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+        </div>
 
-        <label for="freq1_reg_input">FREQ1 REG (28 bit)</label>
-        <br>
-        <input type="text" id="freq1_reg_input" size="40" onchange="unselectPreset()">
-        <br>
-        <br>
+        <div class="single-cell-input-fields" id="freq1RegDiv">
+            <label class="margin2">FREQ1 REG (28 bit):</label>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">0</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">1</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">2</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">3</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">4</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">5</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">6</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">7</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">8</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">9</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">10</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">11</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">12</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">13</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">14</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">15</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">16</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">17</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">18</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">19</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">20</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">21</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">22</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">23</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">24</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">25</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">26</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">27</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+        </div>
 
-        <label for="phase_accumulator_input">PHASE ACCUMULATOR (28-BIT)</label>
-        <br>
-        <input type="text" id="phase_accumulator_input" size="40" onchange="unselectPreset()">
-        <br>
-        <br>
+        <div class="single-cell-input-fields" id="phaseAccumulatorDiv">
+            <label class="margin3">PHASE ACCUMULATOR (28-BIT):</label>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">0</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">1</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">2</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">3</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">4</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">5</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">6</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">7</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">8</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">9</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">10</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">11</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">12</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">13</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">14</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">15</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">16</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">17</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">18</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">19</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">20</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">21</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">22</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">23</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">24</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">25</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">26</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">27</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+        </div>
 
-        <label for="phase0_reg_input">PHASE0 REG (12 bit)</label>
-        <br>
-        <input type="text" id="phase0_reg_input" size="40" onchange="unselectPreset()">
-        <br>
-        <br>
+        <div class="single-cell-input-fields" id="phase0RegDiv">
+            <label class="margin4">PHASE0 REG (12 bit):</label>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">0</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">1</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">2</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">3</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">4</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">5</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">6</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">7</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">8</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">9</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">10</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">11</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+        </div>
 
-        <label for="phase1_reg_input">PHASE1 REG (12 bit)</label>
-        <br>
-        <input type="text" id="phase1_reg_input" size="40" onchange="unselectPreset()">
-        <br>
-        <br>
+        <div class="single-cell-input-fields" id="phase1RegDiv">
+            <label class="margin5">PHASE1 REG (12 bit):</label>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">0</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">1</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">2</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">3</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">4</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">5</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">6</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">7</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">8</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">9</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">10</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">11</legend>
+                <input type="text" maxlength="1" class="registerInput"/>
+            </fieldset>
+        </div>
 
-        <label for="control_register_input">CONTROL REGISTER (16 bit)</label>
-        <br>
-        <input type="text" id="control_register_input" size="40" onchange="unselectPreset(); updateMuxes();">
+        <div class="single-cell-input-fields" id="controlRegisterDiv">
+            <label class="margin6">CONTROL REGISTER (16 bit):</label>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">0</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit0"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">1</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit1"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">2</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit2"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">3</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit3"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">4</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit4"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">5</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit5"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">6</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit6"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">7</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit7"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">8</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit8"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">9</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">10</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit10"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">11</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit11"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">12</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit12"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">13</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit13"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">14</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit14"/>
+            </fieldset>
+            <fieldset class="registerFieldset">
+                <legend class="registerLegend">15</legend>
+                <input type="text" maxlength="1" class="registerInput" id="controlRegisterBit15"/>
+            </fieldset>
+        </div>
+
+        <div class="baseFrequencyDiv">
+            <label for="base_frequency_input">base frequency:</label>
+            <input type="text" id="base_frequency_input" value="10" class="commonInput">
+            <select id="base_frequency_unit_select">
+                <option value="1">Hz</option>
+                <option value="1_000">KHz</option>
+                <option value="1_000_000">MHz</option>
+            </select>
+        </div>
+
     </div>
     <div class="controlPlane_rightPart">
 
@@ -101,17 +599,6 @@
                 </div>
             </div>
         </fieldset>
-        <br>
-
-        <label for="base_frequency_input">base frequency</label>
-        <br>
-        <input type="text" id="base_frequency_input" value="10">
-
-        <select id="base_frequency_unit_select">
-            <option value="1">Hz</option>
-            <option value="1_000">KHz</option>
-            <option value="1_000_000">MHz</option>
-        </select>
     </div>
 </div>
 
@@ -163,7 +650,7 @@
     <button onclick="runGraph(20)" class="greenBackground">Run 20 tacts</button>
     <button onclick="runGraph(30)" class="greenBackground">Run 30 tacts</button>
     <button onclick="runNTactsGraph()" class="greenBackground">Run tacts:</button>
-    <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()" class="greenBackground">
+    <input type="text" size="1" id="tacts_to_run_input" onclick="event.stopPropagation()" class="greenBackground commonInput">
     <button onclick="pauseGraph()" class="yellowBackground">Pause</button>
     <button onclick="continueGraph()" class="blueBackground">Continue</button>
 </div>
@@ -172,5 +659,7 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="../js/script.js"></script>
+<script src="../js/registersHandling.js"></script>
+
 </body>
 </html>

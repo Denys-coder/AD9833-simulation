@@ -50,7 +50,9 @@
 .switch-vertical {
     width: 0;
     height: 60px;
-    margin-left: 27px;
+    margin-left: 20px;
+    margin-bottom: -5px;
+    margin-top: -5px;
 }
 
 .switch-vertical input {
