@@ -19,7 +19,7 @@ let graphLayout = {
     paper_bgcolor: "#d2f8d2",
 };
 let graphConfig = {
-    displayModeBar: false,
+    displayModeBar: true,
 }
 Plotly.newPlot("graphContainer", graphData, graphLayout, graphConfig);
 
