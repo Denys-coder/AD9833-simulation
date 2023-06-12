@@ -149,3 +149,11 @@ select {
 .margin6 {
     margin-right: 22px;
 }
+
+input, select, fieldset {
+    border-color: darkgreen;
+}
+
+select {
+    border-width: 2px;
+}
