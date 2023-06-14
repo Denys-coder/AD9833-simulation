@@ -36,8 +36,6 @@ let d10;
 let d11;
 
 let centralSum = 0;
-let sinRom = 0;
-let DAC10bit = 0;
 let startXAxisRange = 0;
 let endXAxisRange = 100;
 let output = 0;
@@ -107,10 +105,9 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
             let computedSine = Math.sin(preparedValue);
             return ((computedSine - minValue) / (2 * Math.PI - minValue)) * (maxValue - minValue);
         }
-        sinRom = centralSum & 0xfff;
-        sinRom = computeSin(sinRom);
+        let sinRom = computeSin(centralSum);
         let mux4 = d1 === 1 ? centralSum : sinRom;
-        DAC10bit = mux4 >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
+        let DAC10bit = mux4 >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
         output = DAC10bit / 1023 * 1.75;
 
         document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
@@ -205,7 +202,6 @@ function mux2Changed() {
     unselectPreset();
 
     updateSchema();
-
 
     // mux2_first: 6 символ - 0
     const first = document.getElementById("mux2_first");
