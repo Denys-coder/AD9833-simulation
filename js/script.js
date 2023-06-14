@@ -97,10 +97,9 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_control_register").textContent = controlRegister.toString(2).padStart(16, '0');
 
         let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
-        phaseAccumulator = mux1 & 0xfffffff;
-        let phaseAccumulator12Bit = mux1 >> 16;
+        phaseAccumulator = mux1;
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
-        centralSum = (centralSum + phaseAccumulator12Bit + mux2) & 0xfff;
+        centralSum = (centralSum + phaseAccumulator + mux2) & 0xfff;
         function computeSin(inputValue) {
             const minValue = 0; // Desired minimum value (corresponding to 0)
             const maxValue = 4095; // Desired maximum value (corresponding to 2π)
