@@ -99,11 +99,9 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
         centralSum = (centralSum + phaseAccumulator + mux2) & 0xfff;
         function computeSin(inputValue) {
-            const minValue = 0; // Desired minimum value (corresponding to 0)
-            const maxValue = 4095; // Desired maximum value (corresponding to 2π)
-            let preparedValue = (inputValue / maxValue) * (2 * Math.PI);
-            let computedSine = Math.sin(preparedValue);
-            return ((computedSine - minValue) / (2 * Math.PI - minValue)) * (maxValue - minValue);
+            let convertedValue = inputValue * 2 * Math.PI / 4095;
+            let sin = Math.sin(convertedValue);
+            return (sin + 1) * 4095 / 2;
         }
         let sinRom = computeSin(centralSum);
         let mux4 = d1 === 1 ? centralSum : sinRom;
