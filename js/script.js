@@ -36,6 +36,8 @@ let d10;
 let d11;
 
 let centralSum = 0;
+let sinRom = 0;
+let DAC10bit = 0;
 let startXAxisRange = 0;
 let endXAxisRange = 100;
 let output = 0;
@@ -95,17 +97,21 @@ function runGraph(tactsToRun = Infinity, continueGenerate = false) {
         document.getElementById("current_control_register").textContent = controlRegister.toString(2).padStart(16, '0');
 
         let mux1 = d11 === 0 ? freq0Reg : freq1Reg;
-        phaseAccumulator = mux1;
+        phaseAccumulator = mux1 & 0xfffffff;
+        let phaseAccumulator12Bit = mux1 >> 16;
         let mux2 = d10 === 0 ? phase0Reg : phase1Reg;
-        centralSum = (centralSum + phaseAccumulator + mux2) & 0xfff;
+        centralSum = (centralSum + phaseAccumulator12Bit + mux2) & 0xfff;
         function computeSin(inputValue) {
-            let convertedValue = inputValue * 2 * Math.PI / 4095;
-            let sin = Math.sin(convertedValue);
-            return (sin + 1) * 4095 / 2;
+            const minValue = 0; // Desired minimum value (corresponding to 0)
+            const maxValue = 4095; // Desired maximum value (corresponding to 2π)
+            let preparedValue = (inputValue / maxValue) * (2 * Math.PI);
+            let computedSine = Math.sin(preparedValue);
+            return ((computedSine - minValue) / (2 * Math.PI - minValue)) * (maxValue - minValue);
         }
-        let sinRom = computeSin(centralSum);
+        sinRom = centralSum & 0xfff;
+        sinRom = computeSin(sinRom);
         let mux4 = d1 === 1 ? centralSum : sinRom;
-        let DAC10bit = mux4 >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
+        DAC10bit = mux4 >> 2; // из 12 бит берет 10 старших, 0 bit = 0, 10 bit = 1.75
         output = DAC10bit / 1023 * 1.75;
 
         document.getElementById("current_phase_accumulator").textContent = phaseAccumulator.toString(2).padStart(28, '0');
@@ -141,28 +147,28 @@ function changePreset() {
 
     switch (selectedPreset) {
         case 'preset 1':
-            setFreq0Reg('0110011000111001101001110001');
-            setFreq1Reg('0110011000111001101001110001');
-            setPhaseAccumulator('0110011000111001101001110001');
-            setPhase0Reg('011001100011');
-            setPhase1Reg('011001100011');
-            setControlRegister('0110011000111001');
+            setFreq0Reg('1000110111111111001101110111');
+            setFreq1Reg('1111001010100010100000000100');
+            setPhaseAccumulator('1111001010100010100000000100');
+            setPhase0Reg('011110000001');
+            setPhase1Reg('111101100100');
+            setControlRegister('1101111100000001');
             break;
         case 'preset 2':
-            setFreq0Reg('0110011011111101001001110001');
-            setFreq1Reg('0111010110110110111000110011');
-            setPhaseAccumulator('0110001011101101101101010001');
-            setPhase0Reg('001011101010');
-            setPhase1Reg('001101011010');
-            setControlRegister('0011010100100010');
+            setFreq0Reg('0010001000111001000100101111');
+            setFreq1Reg('1110000000001110111101011101');
+            setPhaseAccumulator('0010001000111001000100101111');
+            setPhase0Reg('111111100100');
+            setPhase1Reg('110100000101');
+            setControlRegister('0001011110001000');
             break;
         case 'preset 3':
-            setFreq0Reg('0110110110111011011111110101');
-            setFreq1Reg('0101011011101101001000100101');
-            setPhaseAccumulator('0110011001001011111001010101');
-            setPhase0Reg('011100001101');
-            setPhase1Reg('010001001111');
-            setControlRegister('0111010110101011');
+            setFreq0Reg('1011010011001000011110110101');
+            setFreq1Reg('0110001000110111000001000100');
+            setPhaseAccumulator('1011010011001000011110110101');
+            setPhase0Reg('010011101000');
+            setPhase1Reg('110101010101');
+            setControlRegister('0011001011101000');
             break;
     }
 
